@@ -92,5 +92,6 @@ export const ProductUploadForm = () => {
         </div>
       </form>
     </div>
+
   );
 };
