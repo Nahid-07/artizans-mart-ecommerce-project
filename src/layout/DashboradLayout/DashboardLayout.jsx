@@ -7,7 +7,7 @@ export const DashboardLayout = () => {
         <aside className='flex-1'>
             <Sidebar/>
         </aside>
-        <aside className='flex-4'>
+        <aside className='flex-4 mr-5 mb-5 mt-5 bg-gray-50'> 
             <Outlet></Outlet>
         </aside>
     </div>

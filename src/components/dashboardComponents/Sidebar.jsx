@@ -17,7 +17,7 @@ export const Sidebar = () => {
 
       {/* Sidebar */}
       <div
-        className={`fixed top-0 left-0 min-h-screen w-64 bg-gray-200 shadow-lg transform 
+        className={`fixed top-0 left-0 min-h-screen w-64 bg-gray-50 shadow-lg transform 
         ${isOpen ? "translate-x-0" : "-translate-x-full"} 
         transition-transform duration-300 ease-in-out 
         md:translate-x-0 md:static md:w-64`}
