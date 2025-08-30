@@ -7,7 +7,13 @@ import { HomePageLayout } from "../layout/HomePageLayout/HomePageLayout";
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePageLayout/>
+    element: <HomePageLayout/>,
+    // children: [
+    //   {
+    //     path: ,
+    //     element: 
+    //   }
+    // ]
   },
   {
     path: "/dashboard",
