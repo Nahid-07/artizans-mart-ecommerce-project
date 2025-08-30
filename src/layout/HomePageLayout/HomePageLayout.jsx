@@ -1,10 +1,15 @@
-import React from 'react'
 import Navbar from '../../components/Navbar'
+import Hero from '../../components/Hero'
 
 export const HomePageLayout = () => {
   return (
-    <div>
-        <Navbar/>
-    </div>
+    <>
+        <header>
+            <Navbar/>
+        </header>
+        <section>
+            <Hero/>
+        </section>
+    </>
   )
 }
