@@ -2,11 +2,12 @@ import { createBrowserRouter } from "react-router";
 import { DashboardLayout } from "../layout/DashboradLayout/DashboardLayout";
 import { ProductUploadForm } from "../components/dashboardComponents/ProductUploadForm";
 import { ProductUpdateForm } from "../components/dashboardComponents/ProductUpdateForm";
+import { HomePageLayout } from "../layout/HomePageLayout/HomePageLayout";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    element: <h1>hello</h1>,
+    element: <HomePageLayout/>
   },
   {
     path: "/dashboard",

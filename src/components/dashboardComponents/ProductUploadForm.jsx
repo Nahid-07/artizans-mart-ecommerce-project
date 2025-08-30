@@ -1,19 +1,33 @@
 export const ProductUploadForm = () => {
-  const handleSubmit = e =>{
+  const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const productData = {
-      "productName" : form.productName.value,
-      'category' : form.productCategory.value,
-      "price" : form.price.value,
-      "stock" : form.stock.value,
-      "ratings" : form.ratings.value,
-      "photourl" : form.photourl.value,
-      "description" : form.description.value,
-
-    }
-    console.log(productData)
-  }
+      productName: form.productName.value,
+      category: form.productCategory.value,
+      price: form.price.value,
+      stock: form.stock.value,
+      ratings: form.ratings.value,
+      photourl: form.photourl.value,
+      description: form.description.value,
+      features: form.features.value.split(",").map((f) => f.trim()),
+    };
+    console.log(productData);
+    fetch("http://localhost:5000/addProduct", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(productData),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if(data.insertedId){
+          alert("Product has been added")
+        }
+        form.reset()
+  });
+  };
   return (
     <div className="bg-white p-10 md:p-20 rounded-lg shadow-lg">
       <h3 className="text-gray-800 text-xl font-medium text-center mb-3">
@@ -86,12 +100,20 @@ export const ProductUploadForm = () => {
           ></textarea>
         </div>
         <div>
+          <label className="block mt-2">Specifications</label>
+          <textarea
+            type="text"
+            className="outline-none rounded-lg border border-sky-600 md:w-96 mt-2 p-2 text-gray-800"
+            placeholder="Specifications"
+            name="features"
+          />
+        </div>
+        <div>
           <button className="md:w-96 bg-sky-600 text-white p-3 rounded-lg mt-2">
             Add Product
           </button>
         </div>
       </form>
     </div>
-
   );
 };
