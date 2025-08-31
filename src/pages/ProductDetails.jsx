@@ -6,7 +6,7 @@ import ProductReviews from "../components/ProductReviews";
 import { useState } from "react";
 
 const ProductDetails = () => {
-  const productData = useLoaderData();
+  const {data:productData , filterRiview} = useLoaderData();
   const [mainImage, setMainImage] = useState(productData.images[0]);
 
 
@@ -80,7 +80,7 @@ const ProductDetails = () => {
               <div className="mt-4 flex items-center space-x-2">
                 {renderStars(productData.rating)}
                 <span className="text-gray-600 text-sm">
-                  ({productData?.reviews} reviews)
+                  ({filterRiview?.length} reviews)
                 </span>
               </div>
 
