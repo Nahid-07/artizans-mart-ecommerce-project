@@ -12,7 +12,6 @@ export const ProductUploadForm = () => {
       description: form.description.value,
       features: form.features.value.split(",").map((f) => f.trim()),
     };
-    console.log(productData);
     fetch("http://localhost:5000/addProduct", {
       method: "POST",
       headers: {
@@ -117,3 +116,9 @@ export const ProductUploadForm = () => {
     </div>
   );
 };
+
+
+
+
+
+
