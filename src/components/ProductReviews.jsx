@@ -1,10 +1,21 @@
 // src/components/ProductReviews.jsx
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StarIcon } from '@heroicons/react/24/solid';
+import { useParams } from 'react-router';
 
 const ProductReviews = ({ productId, initialReviews = [] }) => {
   const [reviews, setReviews] = useState(initialReviews);
-  const [newReview, setNewReview] = useState({ author: '', rating: 0, comment: '' });
+  const [newReview, setNewReview] = useState({ author: '', rating: 0, comment: '', productId: productId });
+  const {id} = useParams()
+
+  useEffect(()=>{
+    fetch('http://localhost:5000/reviews')
+    .then(res => res.json())
+    .then(data =>{
+      const filterReviews = data.filter(i => i.productId === id)
+      setReviews(filterReviews)
+    })
+  },[])
 
   const renderStars = (rating) => {
     return (
@@ -39,6 +50,13 @@ const ProductReviews = ({ productId, initialReviews = [] }) => {
       setReviews([submittedReview, ...reviews]);
       setNewReview({ author: '', rating: 0, comment: '' });
       // In a real application, you would send submittedReview to your backend
+      fetch('http://localhost:5000/reviews',{
+        method: "POST",
+        headers: {
+          "content-type": "application/json"
+        },
+        body: JSON.stringify(newReview)
+      }).then(res => res.json()).then(data => console.log(data))
     }
   };
 

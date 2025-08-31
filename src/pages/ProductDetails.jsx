@@ -117,7 +117,7 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
-      <ProductReviews />
+      <ProductReviews productId={productData._id} />
     </div>
   );
 };
