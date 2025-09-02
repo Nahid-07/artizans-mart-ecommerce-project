@@ -43,6 +43,14 @@ export const Sidebar = () => {
               Update Product
             </Link>
           </li>
+          <li>
+            <Link
+              to="/dashboard/orders"
+              className="block w-full py-3 px-4 rounded-md text-center hover:bg-gray-300 transition"
+            >
+              Orders
+            </Link>
+          </li>
         </ul>
       </div>
 

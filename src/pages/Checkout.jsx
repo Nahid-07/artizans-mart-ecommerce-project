@@ -42,18 +42,36 @@ const Checkout = () => {
     });
   };
 
+  const total = productPrice + deliveryFee;
+
   const handleConfirmOrder = (e) => {
     e.preventDefault();
-    console.log("Order Confirmed!", {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-indexed
+    const day = today.getDate().toString().padStart(2, "0");
+
+    const formattedDate = `${year}-${month}-${day}`;
+    const orderDetails = {
       customerInfo,
       productPrice,
       deliveryFee,
       total: productPrice + deliveryFee,
-    });
+      product: orderedProductData.data.name,
+      date: formattedDate
+    };
+
+    fetch("http://localhost:5000/place-order", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(orderDetails),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data));
     alert("Order Confirmed! Thank you for your purchase.");
   };
-
-  const total = productPrice + deliveryFee;
 
   return (
     <div className="bg-gray-100 min-h-screen">
