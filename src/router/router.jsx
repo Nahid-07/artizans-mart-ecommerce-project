@@ -7,6 +7,7 @@ import ProductGrid from "../components/ProductGrid";
 import ProductForm from "../components/dashboardComponents/ProductForm";
 import Checkout from "../pages/Checkout";
 import OrdersPage from "../components/dashboardComponents/OrdersPage";
+import Categories from "../components/Categories";
 
 export const router = createBrowserRouter([
   {
@@ -19,6 +20,7 @@ export const router = createBrowserRouter([
       },
     ],
   },
+
   {
     path: "/productDetails/:id",
     element: <ProductDetails />,
@@ -46,8 +48,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/dashboard/orders",
-        element: <OrdersPage/>
-        
+        element: <OrdersPage />,
       },
     ],
   },
