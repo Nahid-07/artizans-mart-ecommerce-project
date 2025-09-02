@@ -1,5 +1,5 @@
 // src/components/ProductDetails.jsx
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { StarIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
 import Navbar from "../components/Navbar";
 import ProductReviews from "../components/ProductReviews";
@@ -97,9 +97,11 @@ const ProductDetails = () => {
                   <ShoppingCartIcon className="h-5 w-5 mr-2" />
                   Add to Cart
                 </button>
+                <Link to={`/checkout/${productData._id}`}>
                 <button className="flex-1 flex items-center justify-center border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-50 transition-colors transform hover:scale-105">
                   Buy Now
                 </button>
+                </Link>
               </div>
             </div>
           </div>

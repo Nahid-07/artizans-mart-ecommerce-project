@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router";
 import { DashboardLayout } from "../layout/DashboradLayout/DashboardLayout";
-import { ProductUploadForm } from "../components/dashboardComponents/ProductUploadForm";
 import { ProductUpdateForm } from "../components/dashboardComponents/ProductUpdateForm";
 import { HomePageLayout } from "../layout/HomePageLayout/HomePageLayout";
 import ProductDetails from "../pages/ProductDetails";
 import ProductGrid from "../components/ProductGrid";
 import ProductForm from "../components/dashboardComponents/ProductForm";
+import Checkout from "../pages/Checkout";
 
 export const router = createBrowserRouter([
   {
@@ -24,6 +24,12 @@ export const router = createBrowserRouter([
     loader: ({ params }) =>
       fetch(`http://localhost:5000/products/${params.id}`),
   },
+  {
+    path: "/checkout/:id",
+    element: <Checkout />,
+    loader: ({ params }) =>
+      fetch(`http://localhost:5000/products/${params.id}`),
+  },
 
   {
     path: "/dashboard",
@@ -31,7 +37,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard/add-product",
-        element: <ProductForm/>
+        element: <ProductForm />,
       },
       {
         path: "/dashboard/update-product",
