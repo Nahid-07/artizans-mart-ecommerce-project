@@ -17,11 +17,12 @@ export const HomePageLayout = () => {
         <Hero />
       </section>
       <section>
-        <Outlet></Outlet>
-      </section>
-      <section>
         <Categories/>
       </section>
+      <section>
+        <Outlet></Outlet>
+      </section>
+      
       <section>
         <Testimonial/>
       </section>
