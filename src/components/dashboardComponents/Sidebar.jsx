@@ -48,11 +48,11 @@ export const Sidebar = () => {
           </li>
           <li>
             <Link
-              to="/dashboard/update-product"
+              to="/dashboard/all-products"
               className="block w-full py-3 px-4 rounded-md text-center hover:bg-gray-300 transition"
               onClick={() => setIsOpen(false)} // Close sidebar on link click
             >
-              Update Product
+              All Products
             </Link>
           </li>
           <li>

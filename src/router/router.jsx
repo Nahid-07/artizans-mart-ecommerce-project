@@ -1,13 +1,13 @@
 import { createBrowserRouter } from "react-router";
 import { DashboardLayout } from "../layout/DashboradLayout/DashboardLayout";
-import { ProductUpdateForm } from "../components/dashboardComponents/ProductUpdateForm";
+import ProductUpdateForm from "../components/dashboardComponents/ProductUpdateForm";
 import { HomePageLayout } from "../layout/HomePageLayout/HomePageLayout";
 import ProductDetails from "../pages/ProductDetails";
 import ProductGrid from "../components/ProductGrid";
 import ProductForm from "../components/dashboardComponents/ProductForm";
 import Checkout from "../pages/Checkout";
 import OrdersPage from "../components/dashboardComponents/OrdersPage";
-import Categories from "../components/Categories";
+import AllProducts from "../components/dashboardComponents/AllProducts";
 
 export const router = createBrowserRouter([
   {
@@ -50,6 +50,10 @@ export const router = createBrowserRouter([
         path: "/dashboard/orders",
         element: <OrdersPage />,
       },
+      {
+        path: '/dashboard/all-products',
+        element:<AllProducts/>
+      }
     ],
   },
 ]);

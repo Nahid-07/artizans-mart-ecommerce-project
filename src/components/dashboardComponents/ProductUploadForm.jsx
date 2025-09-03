@@ -1,4 +1,4 @@
-export const ProductUploadForm = () => {
+export const ProductUpdateForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
