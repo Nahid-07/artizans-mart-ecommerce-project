@@ -6,9 +6,8 @@ import ProductReviews from "../components/ProductReviews";
 import { useState } from "react";
 
 const ProductDetails = () => {
-  const {data:productData , filterRiview} = useLoaderData();
+  const { data: productData, filterRiview } = useLoaderData();
   const [mainImage, setMainImage] = useState(productData.images[0]);
-
 
   // Function to render stars based on the rating
   const renderStars = (rating) => {
@@ -92,17 +91,23 @@ const ProductDetails = () => {
                 {productData.long_description}
               </p>
 
-              <div className="mt-8 flex space-x-4">
-                <button className="flex-1 flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition-colors transform hover:scale-105">
-                  <ShoppingCartIcon className="h-5 w-5 mr-2" />
-                  Add to Cart
-                </button>
-                <Link to={`/checkout/${productData._id}`}>
-                <button className="flex-1 flex items-center justify-center border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-50 transition-colors transform hover:scale-105">
-                  Buy Now
-                </button>
-                </Link>
-              </div>
+              {productData.stock_status === "out_of_stock" ? (
+                <p className="text-center mt-8 font-bold text-2xl">
+                  Out of stock
+                </p>
+              ) : (
+                <div className="mt-8 flex space-x-4">
+                  <button className="flex-1 flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition-colors transform hover:scale-105">
+                    <ShoppingCartIcon className="h-5 w-5 mr-2" />
+                    Add to Cart
+                  </button>
+                  <Link to={`/checkout/${productData._id}`}>
+                    <button className="flex-1 flex items-center justify-center border-2 border-blue-600 text-blue-600 px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-50 transition-colors transform hover:scale-105">
+                      Buy Now
+                    </button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
 

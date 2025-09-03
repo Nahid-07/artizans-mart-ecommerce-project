@@ -18,10 +18,17 @@ const AllProducts = () => {
 
   const handleDelete = async (productId) => {
     // In a real application, you would send a DELETE request to your backend
-    console.log(`Deleting product with ID: ${productId}`);
+    fetch(`http://localhost:5000/delete-a-product/${productId}`, {
+      method: "DELETE",
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.deletedCount > 0) {
+          setProducts(products.filter((product) => product._id !== productId));
+          alert(`Product ${productId} has been deleted.`);
+        }
+      });
     // Optimistically update the UI
-    setProducts(products.filter((product) => product._id !== productId));
-    alert(`Product ${productId} has been deleted.`);
   };
 
   if (loading) {
