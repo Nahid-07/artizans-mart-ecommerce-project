@@ -9,11 +9,13 @@ import Checkout from "../pages/Checkout";
 import OrdersPage from "../components/dashboardComponents/OrdersPage";
 import AllProducts from "../components/dashboardComponents/AllProducts";
 import ThankYouPage from "../components/ThankYouPage";
+import NotFoundPage from "../pages/NotFoundPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePageLayout />,
+    errorElement: <NotFoundPage/>,
     children: [
       {
         path: "/",
@@ -42,6 +44,7 @@ export const router = createBrowserRouter([
   {
     path: "/dashboard",
     element: <DashboardLayout />,
+    errorElement: <NotFoundPage/>,
     children: [
       {
         path: "/dashboard/add-product",
