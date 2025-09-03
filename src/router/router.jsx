@@ -8,6 +8,7 @@ import ProductForm from "../components/dashboardComponents/ProductForm";
 import Checkout from "../pages/Checkout";
 import OrdersPage from "../components/dashboardComponents/OrdersPage";
 import AllProducts from "../components/dashboardComponents/AllProducts";
+import ThankYouPage from "../components/ThankYouPage";
 
 export const router = createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export const router = createBrowserRouter([
     element: <Checkout />,
     loader: ({ params }) =>
       fetch(`http://localhost:5000/products/${params.id}`),
+  },
+  {
+    path: '/thank-you',
+    element: <ThankYouPage/>
   },
 
   {

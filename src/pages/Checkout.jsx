@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import Navbar from "../components/Navbar";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 
 const Checkout = () => {
   const [customerInfo, setCustomerInfo] = useState({
@@ -11,6 +11,7 @@ const Checkout = () => {
     address: "",
     note: "",
   });
+  const navigate = useNavigate()
 
   // Use a state variable for deliveryFee to make it reactive
   const [deliveryFee, setDeliveryFee] = useState(0);
@@ -69,8 +70,11 @@ const Checkout = () => {
       body: JSON.stringify(orderDetails),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
-    alert("Order Confirmed! Thank you for your purchase.");
+      .then((data) => {
+        console.log(data)
+        navigate('/thank-you');
+        alert("Order Confirmed! Thank you for your purchase.");
+      });
   };
 
   return (
