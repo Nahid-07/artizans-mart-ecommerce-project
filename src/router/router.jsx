@@ -43,17 +43,19 @@ export const router = createBrowserRouter([
         element: <ProductForm />,
       },
       {
-        path: "/dashboard/update-product",
+        path: "/dashboard/update-product/:id",
         element: <ProductUpdateForm />,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/products/${params.id}`),
       },
       {
         path: "/dashboard/orders",
         element: <OrdersPage />,
       },
       {
-        path: '/dashboard/all-products',
-        element:<AllProducts/>
-      }
+        path: "/dashboard/all-products",
+        element: <AllProducts />,
+      },
     ],
   },
 ]);

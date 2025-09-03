@@ -1,22 +1,22 @@
 import { useState } from "react";
-import { useLoaderData } from "react-router";
+import { useLoaderData, useNavigate } from "react-router";
 
 const ProductUpdateForm = () => {
-  const data = useLoaderData();
-  console.log(data)
+  const { data } = useLoaderData();
+  const navigate = useNavigate()
   const [productData, setProductData] = useState({
-    name: "",
-    brand: "",
-    price: "",
-    rating: "",
+    name: data.name,
+    brand: data.brand,
+    price: data.price,
+    rating: data.rating,
     reviews_count: 0,
-    category: "",
-    is_featured: false,
-    stock_status: "in_stock",
-    short_description: "",
-    long_description: "",
-    images: [],
-    features: [],
+    category: data.category,
+    is_featured: data.is_featured,
+    stock_status: data.stock_status,
+    short_description: data.short_description,
+    long_description: data.long_description,
+    images: data.images,
+    features: data.features,
   });
   const [newFeature, setNewFeature] = useState("");
   const [newImage, setNewImage] = useState("");
@@ -59,19 +59,20 @@ const ProductUpdateForm = () => {
     setProductData({ ...productData, images: updatedImages });
   };
 
-  const handleSubmit = (e) => {
+  const handleUpdate = (e) => {
     e.preventDefault();
-    fetch("http://localhost:5000/addProduct", {
-      method: "POST",
+    fetch(`http://localhost:5000/update-product/${data._id}`, {
+      method: "PUT",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify(productData),
     })
       .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
-          alert("Product has been added");
+      .then((data) =>{
+        if(data.modifiedCount > 0){
+          alert("Product update successfull")
+          navigate("/dashboard/all-products")
         }
       });
   };
@@ -82,7 +83,7 @@ const ProductUpdateForm = () => {
         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
           Update Product
         </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleUpdate} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700">
