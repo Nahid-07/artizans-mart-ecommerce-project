@@ -1,41 +1,17 @@
 import { Link, useLoaderData } from "react-router";
-import { StarIcon, ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import Navbar from "../components/Navbar";
 import ProductReviews from "../components/ProductReviews";
 import { useState } from "react";
+import { renderStars } from "../libs/renderStars";
 
 const ProductDetails = () => {
   const { data: productData, filterRiview } = useLoaderData();
   const [mainImage, setMainImage] = useState(productData.images[0]);
-  const [cartCount, setCartCount] = useState(0)
-
-  // Function to render stars based on the rating
-  const renderStars = (rating) => {
-    const fullStars = Math.floor(rating);
-    const emptyStars = 5 - fullStars;
-    return (
-      <div className="flex items-center text-yellow-400">
-        {Array(fullStars)
-          .fill()
-          .map((_, i) => (
-            <StarIcon key={`full-${i}`} className="h-5 w-5" />
-          ))}
-        {Array(emptyStars)
-          .fill()
-          .map((_, i) => (
-            <StarIcon key={`empty-${i}`} className="h-5 w-5 text-gray-300" />
-          ))}
-      </div>
-    );
-  };
-
-  const handleCartCount = ()=>{
-    setCartCount(1)
-  }
 
   return (
     <div>
-      <Navbar cartCount={cartCount}/>
+      <Navbar cartCount={cartCount} />
       <div className="bg-white py-12 mt-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:space-x-12">
@@ -101,7 +77,9 @@ const ProductDetails = () => {
                 </p>
               ) : (
                 <div className="mt-8 flex space-x-4">
-                  <button onClick={handleCartCount} className="cursor-pointer flex-1 flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition-colors transform hover:scale-105">
+                  <button
+                    className="cursor-pointer flex-1 flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition-colors transform hover:scale-105"
+                  >
                     <ShoppingCartIcon className="h-5 w-5 mr-2" />
                     Add to Cart
                   </button>

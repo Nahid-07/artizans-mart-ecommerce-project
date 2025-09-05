@@ -10,6 +10,7 @@ import OrdersPage from "../components/dashboardComponents/OrdersPage";
 import AllProducts from "../components/dashboardComponents/AllProducts";
 import ThankYouPage from "../components/ThankYouPage";
 import NotFoundPage from "../pages/NotFoundPage";
+import ShopPage from "../components/ShopPage";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,11 @@ export const router = createBrowserRouter([
     element: <Checkout />,
     loader: ({ params }) =>
       fetch(`http://localhost:5000/products/${params.id}`),
+  },
+  {
+    path: '/shop',
+    element: <ShopPage/>,
+    loader: ()=> fetch('http://localhost:5000/products')
   },
   {
     path: '/thank-you',

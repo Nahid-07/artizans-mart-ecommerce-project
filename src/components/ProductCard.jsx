@@ -1,35 +1,7 @@
-// src/components/ProductCard.jsx
-import React from "react";
-import { StarIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
+import { renderStars } from "../libs/renderStars";
 
 const ProductCard = ({ product }) => {
-  // Function to render stars based on the rating
-  const renderStars = (rating) => {
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 !== 0;
-    const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
-
-    return (
-      <div className="flex items-center text-yellow-400">
-        {Array(fullStars)
-          .fill()
-          .map((_, i) => (
-            <StarIcon key={`full-${i}`} className="h-5 w-5" />
-          ))}
-        {hasHalfStar && (
-          <StarIcon key="half" className="h-5 w-5 text-gray-300" />
-        )}
-        {Array(emptyStars)
-          .fill()
-          .map((_, i) => (
-            <StarIcon key={`empty-${i}`} className="h-5 w-5 text-gray-300" />
-          ))}
-        <span className="ml-2 text-sm text-gray-500">({rating})</span>
-      </div>
-    );
-  };
-
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-shadow duration-300 transform hover:scale-105">
       <Link to={`/productDetails/${product._id}`} className="block">
