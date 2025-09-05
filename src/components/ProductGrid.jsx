@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 const ProductGrid = () => {
     const [products, setProducts] = useState([]);
     useEffect(()=>{
-        fetch('http://localhost:5000/featuredProducts')
+        fetch('http://localhost:5000/featured-products')
         .then(res => res.json())
         .then(data => setProducts(data))
     },[])

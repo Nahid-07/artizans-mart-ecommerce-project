@@ -1,5 +1,4 @@
-// src/components/ProductReviews.jsx
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { useParams } from 'react-router';
 
@@ -48,8 +47,7 @@ const ProductReviews = ({ productId, initialReviews = [] }) => {
         date: new Date().toISOString().split('T')[0],
       };
       setReviews([submittedReview, ...reviews]);
-      setNewReview({ author: '', rating: 0, comment: '' });
-      // In a real application, you would send submittedReview to your backend
+      setNewReview({ author: '', rating: 0, comment: '' })
       fetch('http://localhost:5000/reviews',{
         method: "POST",
         headers: {

@@ -8,7 +8,7 @@ import {
 import { Link } from "react-router";
 import SearchModal from "./SearchModal";
 
-const Navbar = ({ cartCount }) => {
+const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false); // New state for search modal
   const [cartItemCount, setCartItemCount] = useState(0);
