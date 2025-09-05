@@ -11,6 +11,7 @@ import AllProducts from "../components/dashboardComponents/AllProducts";
 import ThankYouPage from "../components/ThankYouPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ShopPage from "../components/ShopPage";
+import AboutUsPage from "../pages/AboutUsPage";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
   {
     path: '/thank-you',
     element: <ThankYouPage/>
+  },
+  {
+    path: '/about_us',
+    element: <AboutUsPage/>
   },
 
   {

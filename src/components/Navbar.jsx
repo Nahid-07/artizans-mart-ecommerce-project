@@ -100,7 +100,7 @@ const Navbar = () => {
               </li>
               <li>
                 <Link
-                  to="/aboutus"
+                  to="/about_us"
                   className="block py-2 text-gray-800 hover:text-blue-500 transition-colors duration-300"
                 >
                   About Us
