@@ -1,16 +1,25 @@
 // src/pages/ShopPage.jsx
-import { useState } from "react";
-import { Link, useLoaderData } from "react-router";
+import { useEffect, useState } from "react";
+import { Link, useLoaderData, useParams } from "react-router";
 import Navbar from "./Navbar";
 import { renderStars } from "../libs/renderStars";
 
 const ShopPage = () => {
+  const { category } = useParams();
+  console.log(category)
   const [filters, setFilters] = useState({
-    category: "All",
+    category: category || "All",
     priceRange: "All",
     rating: 0,
   });
   const productdata = useLoaderData();
+
+  useEffect(() => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      category: category || "All"
+    }));
+  }, [category]);
 
   const filteredProducts = productdata.filter((product) => {
     // Category filter
@@ -49,7 +58,7 @@ const ShopPage = () => {
                 >
                   <option value="All">All</option>
                   <option value="powerbank">powerbank</option>
-                  <option value="Ear buds">Ear buds</option>
+                  <option value="earbuds">Ear buds</option>
                   <option value="Accessories">Accessories</option>
                 </select>
               </div>

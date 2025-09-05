@@ -1,4 +1,7 @@
+import { useNavigate } from "react-router";
+
 export const ProductUpdateForm = () => {
+  const navigate = useNavigate()
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -23,8 +26,9 @@ export const ProductUpdateForm = () => {
       .then((data) => {
         if(data.insertedId){
           alert("Product has been added")
+          navigate("/dashboard/all-products")
         }
-        form.reset()
+        
   });
   };
   return (

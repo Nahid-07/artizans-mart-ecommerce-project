@@ -1,5 +1,5 @@
-import { Link } from 'react-router';
-import { CheckCircleIcon } from '@heroicons/react/24/outline';
+import { Link } from "react-router";
+import { CheckCircleIcon } from "@heroicons/react/24/outline";
 
 const ThankYouPage = () => {
   return (
@@ -11,7 +11,8 @@ const ThankYouPage = () => {
             Thank You for Your Order!
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Your order has been successfully placed. We've sent a confirmation email to your inbox.
+            Your order has been successfully placed. We've sent a confirmation
+            email to your inbox.
           </p>
         </div>
         <div className="mt-8 space-y-4">

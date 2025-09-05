@@ -8,16 +8,17 @@ import ProductForm from "../components/dashboardComponents/ProductForm";
 import Checkout from "../pages/Checkout";
 import OrdersPage from "../components/dashboardComponents/OrdersPage";
 import AllProducts from "../components/dashboardComponents/AllProducts";
-import ThankYouPage from "../components/ThankYouPage";
 import NotFoundPage from "../pages/NotFoundPage";
 import ShopPage from "../components/ShopPage";
 import AboutUsPage from "../pages/AboutUsPage";
+import ThankYouPage from "../pages/ThankYouPage";
+import CategoryShopPage from "../pages/CategoryShopPage";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePageLayout />,
-    errorElement: <NotFoundPage/>,
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: "/",
@@ -30,32 +31,38 @@ export const router = createBrowserRouter([
     path: "/productDetails/:id",
     element: <ProductDetails />,
     loader: ({ params }) =>
-      fetch(`http://localhost:5000/products/${params.id}`),
+      fetch(`http://localhost:5000/products/${params?.id}`),
   },
   {
     path: "/checkout/:id",
     element: <Checkout />,
     loader: ({ params }) =>
-      fetch(`http://localhost:5000/products/${params.id}`),
+      fetch(`http://localhost:5000/products/${params?.id}`),
   },
   {
-    path: '/shop',
-    element: <ShopPage/>,
-    loader: ()=> fetch('http://localhost:5000/products')
+    path: "/shop",
+    element: <ShopPage />,
+    loader: () => fetch("http://localhost:5000/products"),
   },
   {
-    path: '/thank-you',
-    element: <ThankYouPage/>
+    path: "/category/:category",
+    element: <CategoryShopPage />,
+    loader: ({ params }) =>
+      fetch(`http://localhost:5000/category/${params?.category}`),
   },
   {
-    path: '/about_us',
-    element: <AboutUsPage/>
+    path: "/thank-you",
+    element: <ThankYouPage />,
+  },
+  {
+    path: "/about_us",
+    element: <AboutUsPage />,
   },
 
   {
     path: "/dashboard",
     element: <DashboardLayout />,
-    errorElement: <NotFoundPage/>,
+    errorElement: <NotFoundPage />,
     children: [
       {
         path: "/dashboard/add-product",
@@ -65,7 +72,7 @@ export const router = createBrowserRouter([
         path: "/dashboard/update-product/:id",
         element: <ProductUpdateForm />,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/products/${params.id}`),
+          fetch(`http://localhost:5000/products/${params?.id}`),
       },
       {
         path: "/dashboard/orders",

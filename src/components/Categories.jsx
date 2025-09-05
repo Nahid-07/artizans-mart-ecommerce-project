@@ -1,32 +1,31 @@
-
-import { Link } from 'react-router';
-import Headphone from '../assets/earBuds.png'
-import Powerbank from '../assets/powerbank.jpg'
-import smartwatch from '../assets/smartwatch.jpg'
+import { Link } from "react-router";
+import Headphone from "../assets/earBuds.png";
+import Powerbank from "../assets/powerbank.jpg";
+import smartwatch from "../assets/smartwatch.jpg";
 
 const categoriesData = [
   {
-    name: 'Headphones',
+    name: "Headphones",
     image: Headphone,
-    link: '/products/headphones',
+    category: "earbuds",
   },
   {
-    name: 'Powerbank',
+    name: "Powerbank",
     image: Powerbank,
-    link: '/products/smartwatches',
+    category: "powerbank",
   },
   {
-    name: 'Smartwatches',
+    name: "Smartwatches",
     image: smartwatch,
-    link: '/products/laptops',
+    category: "smartwatch",
   },
   {
-    name: 'Gaming Accessories',
-    image: 'https://images.unsplash.com/photo-1596538421869-d4c5c70a0491?q=80&w=2940&auto=format&fit=crop',
-    link: '/products/gaming',
+    name: "Gaming Accessories",
+    image:
+      "https://images.unsplash.com/photo-1596538421869-d4c5c70a0491?q=80&w=2940&auto=format&fit=crop",
+    category: "gaming",
   },
 ];
-
 const Categories = () => {
   return (
     <div className="bg-white py-12 sm:py-16">
@@ -36,7 +35,11 @@ const Categories = () => {
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {categoriesData.map((category, index) => (
-            <Link key={index} to={category.link} className="block group">
+            <Link
+              key={index}
+              to={`/category/${category.category}`}
+              className="block group"
+            >
               <div className="relative overflow-hidden rounded-lg shadow-md transition-shadow duration-300 group-hover:shadow-xl">
                 <img
                   src={category.image}
