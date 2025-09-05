@@ -11,7 +11,7 @@ const ProductDetails = () => {
 
   return (
     <div>
-      <Navbar cartCount={cartCount} />
+      <Navbar/>
       <div className="bg-white py-12 mt-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:space-x-12">

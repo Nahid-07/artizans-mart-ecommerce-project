@@ -44,7 +44,7 @@ const Navbar = ({ cartCount }) => {
                 <ShoppingCartIcon className="h-6 w-6" />
                 {cartItemCount > 0 && (
                   <span className="absolute -top-1 -right-2 inline-flex items-center justify-center h-4 w-4 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                    {cartCount}
+                    {cartItemCount}
                   </span>
                 )}
               </Link>
@@ -124,7 +124,7 @@ const Navbar = ({ cartCount }) => {
               <ShoppingCartIcon className="h-6 w-6" />
               {cartItemCount > 0 && (
                 <span className="absolute -top-1 -right-2 inline-flex items-center justify-center h-4 w-4 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                  {cartCount}
+                  {cartItemCount}
                 </span>
               )}
             </Link>
