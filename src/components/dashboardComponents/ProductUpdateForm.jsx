@@ -3,7 +3,7 @@ import { useLoaderData, useNavigate } from "react-router";
 
 const ProductUpdateForm = () => {
   const { data } = useLoaderData();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [productData, setProductData] = useState({
     name: data.name,
     brand: data.brand,
@@ -69,10 +69,10 @@ const ProductUpdateForm = () => {
       body: JSON.stringify(productData),
     })
       .then((res) => res.json())
-      .then((data) =>{
-        if(data.modifiedCount > 0){
-          alert("Product update successfull")
-          navigate("/dashboard/all-products")
+      .then((data) => {
+        if (data.result.modifiedCount > 0) {
+          alert(data.message);
+          navigate("/dashboard/all-products");
         }
       });
   };
