@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useParams, Link, useLoaderData } from "react-router";
 import { renderStars } from "../libs/renderStars";
 
@@ -63,7 +63,7 @@ const CategoryShopPage = () => {
                     key={product._id}
                     className="bg-white rounded-lg shadow-md overflow-hidden transition-transform duration-300 hover:scale-105 hover:shadow-xl"
                   >
-                    <Link to={`/product/${product._id}`}>
+                    <Link to={`/productDetails/${product._id}`}>
                       <img
                         src={product.images[0]}
                         alt={product.name}

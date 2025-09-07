@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import HeroImg from '../assets/Hero.jpg'
 
 const Hero = () => {
   return (
@@ -34,7 +35,7 @@ const Hero = () => {
           {/* Right Part: Image */}
           <div className="flex-1 w-full md:w-auto mt-12 md:mt-0">
             <img
-              src="https://scontent.fdac41-1.fna.fbcdn.net/v/t39.30808-6/493895865_122242964276064718_6699246580041560321_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=FUARpPeCGf0Q7kNvwE_p952&_nc_oc=Adl-hYwHnT9gETWU29hP-wDllDTAdfhOK3rs5-VUvwc8iMdcHALpLk8LmlGxpoDn9vc&_nc_zt=23&_nc_ht=scontent.fdac41-1.fna&_nc_gid=xTlZl36qPCh_voxR8L9Uww&oh=00_AfUYI9-T8RPMA_MMFjVCUrqC6UWHvQmFg1JnK6597TQ-8g&oe=68B86810"
+              src={HeroImg}
               alt="A collection of modern electronic gadgets"
               className="w-full h-auto rounded-lg shadow-2xl transform hover:scale-105 transition-transform duration-500"
             />

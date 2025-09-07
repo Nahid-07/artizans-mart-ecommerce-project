@@ -1,5 +1,4 @@
 const OrderTable = ({ orders }) => {
-  console.log(orders);
   return (
     <div className="overflow-x-auto bg-white p-6 rounded-lg shadow-xl">
       <table className="min-w-full divide-y divide-gray-200">
