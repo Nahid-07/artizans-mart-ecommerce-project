@@ -1,22 +1,19 @@
 // import { useState } from "react";
-// import { useLoaderData, useNavigate } from "react-router";
 
-// const ProductUpdateForm = () => {
-//   const { data } = useLoaderData();
-//   const navigate = useNavigate();
+// const ProductForm = () => {
 //   const [productData, setProductData] = useState({
-//     name: data.name,
-//     brand: data.brand,
-//     price: data.price,
-//     rating: data.rating,
+//     name: "",
+//     brand: "",
+//     price: "",
+//     rating: "",
 //     reviews_count: 0,
-//     category: data.category,
-//     is_featured: data.is_featured,
-//     stock_status: data.stock_status,
-//     short_description: data.short_description,
-//     long_description: data.long_description,
-//     images: data.images,
-//     features: data.features,
+//     category: "",
+//     is_featured: false,
+//     stock_status: "in_stock",
+//     short_description: "",
+//     long_description: "",
+//     images: [],
+//     features: [],
 //   });
 //   const [newFeature, setNewFeature] = useState("");
 //   const [newImage, setNewImage] = useState("");
@@ -59,10 +56,10 @@
 //     setProductData({ ...productData, images: updatedImages });
 //   };
 
-//   const handleUpdate = (e) => {
+//   const handleSubmit = (e) => {
 //     e.preventDefault();
-//     fetch(`http://localhost:5000/update-product/${data._id}`, {
-//       method: "PUT",
+//     fetch("http://localhost:5000/addProduct", {
+//       method: "POST",
 //       headers: {
 //         "content-type": "application/json",
 //       },
@@ -70,9 +67,8 @@
 //     })
 //       .then((res) => res.json())
 //       .then((data) => {
-//         if (data.result.modifiedCount > 0) {
-//           alert(data.message);
-//           navigate("/dashboard/all-products");
+//         if (data.insertedId) {
+//           alert("Product has been added");
 //         }
 //       });
 //   };
@@ -81,9 +77,9 @@
 //     <div className="bg-gray-100 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
 //       <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
 //         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
-//           Update Product
+//           Add New Product
 //         </h2>
-//         <form onSubmit={handleUpdate} className="space-y-6">
+//         <form onSubmit={handleSubmit} className="space-y-6">
 //           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 //             <div>
 //               <label className="block text-sm font-medium text-gray-700">
@@ -297,7 +293,7 @@
 //               type="submit"
 //               className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
 //             >
-//               Update
+//               Add Product
 //             </button>
 //           </div>
 //         </form>
@@ -306,33 +302,28 @@
 //   );
 // };
 
-// export default ProductUpdateForm;
+// export default ProductForm;
 
-import { useState } from "react";
-import { useLoaderData, useNavigate } from "react-router"; // Use react-router-dom for useNavigate
+import React, { useState } from "react";
 
-const ProductUpdateForm = () => {
-  const { data } = useLoaderData();
-  const navigate = useNavigate();
+const ProductAddForm = () => {
   const [productData, setProductData] = useState({
-    name: data.name,
-    brand: data.brand,
-    // Add regular price and offer price to the state
-    regular_price: data.regular_price || "",
-    offer_price: data.offer_price || "",
-    rating: data.rating,
-    reviews_count: data.reviews_count,
-    category: data.category,
-    is_featured: data.is_featured,
-    stock_status: data.stock_status,
-    short_description: data.short_description,
-    long_description: data.long_description,
-    images: data.images,
-    features: data.features,
+    name: "",
+    brand: "",
+    regular_price: "",
+    offer_price: "",
+    rating: "",
+    reviews_count: 0,
+    category: "",
+    is_featured: false,
+    stock_status: "in_stock",
+    short_description: "",
+    long_description: "",
+    images: [],
+    features: [],
   });
   const [newFeature, setNewFeature] = useState("");
   const [newImage, setNewImage] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
@@ -373,66 +364,62 @@ const ProductUpdateForm = () => {
     setProductData({ ...productData, images: updatedImages });
   };
 
-  const handleUpdate = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
     setError(null);
 
-    // Price validation
+    // Price Validation: Check if offer price is less than regular price
     const regularPrice = parseFloat(productData.regular_price);
     const offerPrice = parseFloat(productData.offer_price);
 
     if (offerPrice >= regularPrice) {
       setError("Offer price must be less than the regular price.");
-      setIsSubmitting(false);
       return;
     }
 
-    // Prepare data to send, ensuring numerical values are parsed
-    const updatedProductData = {
+    // Prepare data for API call, converting string inputs to numbers
+    const dataToSend = {
       ...productData,
       regular_price: regularPrice,
       offer_price: offerPrice,
       rating: parseFloat(productData.rating),
+      reviews_count: 0,
     };
 
-    try {
-      const res = await fetch(`http://localhost:5000/update-product/${data._id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(updatedProductData),
+    fetch("http://localhost:5000/addProduct", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(dataToSend),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.insertedId) {
+          alert("Product has been added successfully!");
+          // Consider clearing the form or navigating to a new page
+        } else {
+          alert("Failed to add product. Please try again.");
+        }
+      })
+      .catch((err) => {
+        setError("Network error. Please try again.");
+        console.error("Error submitting form:", err);
       });
-
-      const resultData = await res.json();
-      
-      if (resultData.result.modifiedCount > 0) {
-        alert(resultData.message);
-        navigate("/dashboard/all-products");
-      } else {
-        alert("No changes were made to the product.");
-      }
-    } catch (err) {
-      console.error("Update failed:", err);
-      setError("Failed to update product. Please check your network connection.");
-    } finally {
-      setIsSubmitting(false);
-    }
   };
 
   return (
     <div className="bg-gray-100 min-h-screen py-10 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
-          Update Product
+          Add New Product
         </h2>
         {error && (
           <div className="mb-4 text-center text-red-600 font-medium">
             {error}
           </div>
         )}
-        <form onSubmit={handleUpdate} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Product and Brand Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
@@ -643,12 +630,9 @@ const ProductUpdateForm = () => {
           <div className="mt-6">
             <button
               type="submit"
-              disabled={isSubmitting}
-              className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors ${
-                isSubmitting ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
-              }`}
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition"
             >
-              {isSubmitting ? "Updating..." : "Update Product"}
+              Add Product
             </button>
           </div>
         </form>
@@ -657,4 +641,4 @@ const ProductUpdateForm = () => {
   );
 };
 
-export default ProductUpdateForm;
+export default ProductAddForm;

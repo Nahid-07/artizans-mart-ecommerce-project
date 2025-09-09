@@ -18,7 +18,7 @@ const Hero = () => {
             </p>
             <div className="mt-8 flex justify-center md:justify-start">
               <Link
-                to="#"
+                to="/shop"
                 className="bg-blue-600 text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition-colors duration-300 transform hover:scale-105"
               >
                 Shop Now

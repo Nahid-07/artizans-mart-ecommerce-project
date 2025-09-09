@@ -4,7 +4,7 @@ import ProductUpdateForm from "../components/dashboardComponents/ProductUpdateFo
 import { HomePageLayout } from "../layout/HomePageLayout/HomePageLayout";
 import ProductDetails from "../pages/ProductDetails";
 import ProductGrid from "../components/ProductGrid";
-import ProductForm from "../components/dashboardComponents/ProductForm";
+import ProductAddForm from "../components/dashboardComponents/ProductAddForm";
 import Checkout from "../pages/Checkout";
 import OrdersPage from "../components/dashboardComponents/OrdersPage";
 import AllProducts from "../components/dashboardComponents/AllProducts";
@@ -76,7 +76,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: "/dashboard/add-product",
-        element: <ProductForm />,
+        element: <ProductAddForm />,
       },
       {
         path: "/dashboard/update-product/:id",

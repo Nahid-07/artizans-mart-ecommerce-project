@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLoaderData, useParams } from "react-router";
 import Navbar from "./Navbar";
 import { renderStars } from "../libs/renderStars";
+import Footer from "./Footer";
 
 const ShopPage = () => {
   const { category } = useParams();
@@ -119,7 +120,7 @@ const ShopPage = () => {
                         </span>
                       </div>
                       <p className="text-2xl font-bold text-gray-800">
-                        ৳{product.price}
+                        ৳{product.offer_price}
                       </p>
                     </div>
                   </div>
@@ -137,6 +138,7 @@ const ShopPage = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

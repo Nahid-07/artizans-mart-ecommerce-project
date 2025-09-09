@@ -65,7 +65,13 @@ const AllProducts = () => {
                   scope="col"
                   className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Price
+                  Regular price
+                </th>
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Offer price
                 </th>
                 <th
                   scope="col"
@@ -91,7 +97,10 @@ const AllProducts = () => {
                     {product.brand}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    ৳{product.price}
+                    ৳{product.regular_price}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    ৳{product.offer_price}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <span

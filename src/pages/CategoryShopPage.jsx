@@ -72,7 +72,7 @@ const CategoryShopPage = () => {
                     </Link>
                     <div className="p-4">
                       <h3 className="text-lg font-semibold text-gray-900 truncate">
-                        <Link to={`/product/${product._id}`}>
+                        <Link to={`/productDetails/${product._id}`}>
                           {product.name}
                         </Link>
                       </h3>
@@ -84,7 +84,7 @@ const CategoryShopPage = () => {
                         </span>
                       </div>
                       <p className="text-2xl font-bold text-gray-800">
-                        ৳{product.price}
+                        ৳{product.offer_price}
                       </p>
                     </div>
                   </div>
