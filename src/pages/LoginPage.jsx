@@ -1,16 +1,13 @@
-// src/pages/RegisterPage.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { SparklesIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { SparklesIcon } from "@heroicons/react/24/solid";
 
-const RegisterPage = () => {
-  const navigate = useNavigate(); // Initialize the navigate hook
-
+const LoginPage = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
-    confirmPassword: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -21,21 +18,8 @@ const RegisterPage = () => {
   };
 
   const validateForm = () => {
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
-      setError("All fields are required.");
-      return false;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      return false;
-    }
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long.");
+    if (!formData.email || !formData.password) {
+      setError("Email and password are required.");
       return false;
     }
     setError("");
@@ -49,35 +33,47 @@ const RegisterPage = () => {
     }
 
     setLoading(true);
+    // This is where your authentication logic would go.
     try {
-      // Simulate API call to register user
-      const response = await new Promise((resolve) =>
+      // Simulating a network request for a standard login
+      const response = await new Promise((resolve, reject) => {
         setTimeout(() => {
-          resolve({ success: true });
-        }, 2000)
-      );
+          if (
+            formData.email === "user@example.com" &&
+            formData.password === "password123"
+          ) {
+            resolve({ success: true });
+          } else {
+            reject(new Error("Invalid credentials."));
+          }
+        }, 2000);
+      });
 
-      // Handle success
-      console.log("Registration successful:", response);
-      // You might navigate to the login page or a success page
-      navigate("/login");
+      console.log("Login successful:", response);
+      // Redirect to a different page after successful login
+      navigate("/");
     } catch (err) {
-      setError("Registration failed. Please try again.");
-      console.error("Registration error:", err);
+      setError("Invalid email or password. Please try again.");
+      console.error("Login error:", err);
     } finally {
       setLoading(false);
     }
   };
 
-  // New function to navigate back
   const handleGoBack = () => {
-    navigate(-1); // navigate(-1) goes back to the previous page in history
+    navigate(-1);
+  };
+
+  // Google login handler (placeholder as requested)
+  const handleGoogleLogin = () => {
+    // Alert or log a message to show the button is working
+    alert("Google login button clicked!");
+    // Real Google login logic would go here
   };
 
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 sm:p-10 relative">
-        {/* Go Back Button */}
         <button
           onClick={handleGoBack}
           className="absolute top-4 left-4 p-2 rounded-full text-gray-500 hover:bg-gray-200 transition-colors"
@@ -90,10 +86,10 @@ const RegisterPage = () => {
           <SparklesIcon className="h-12 w-12 text-blue-600" />
         </div>
         <h2 className="text-3xl font-extrabold text-center text-gray-900 mb-2">
-          Create a new account
+          Log in to your account
         </h2>
         <p className="text-center text-gray-500 mb-8">
-          Join our community of artisans and craft lovers.
+          Welcome back! Please enter your details.
         </p>
 
         {error && (
@@ -105,25 +101,51 @@ const RegisterPage = () => {
           </div>
         )}
 
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+        {/* The Google login button section */}
+        <div className="mb-6">
+          <button
+            onClick={handleGoogleLogin}
+            className="w-full flex items-center justify-center space-x-2 py-3 px-4 border border-gray-300 rounded-lg shadow-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors duration-300"
+          >
+            {/* SVG for Google logo */}
+            <svg
+              className="h-6 w-6"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 48 48"
+              width="48px"
+              height="48px"
             >
-              Name
-            </label>
-            <input
-              type="text"
-              name="name"
-              id="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="Full Name"
-            />
-          </div>
+              <path
+                fill="#FFC107"
+                d="M43.611,20.083H42V20H24v8h11.303c-1.613,4.195-5.918,7.243-10.303,7.243c-6.652,0-12.042-5.39-12.042-12.042 c0-6.653,5.39-12.042,12.042-12.042c3.483,0,6.619,1.52,8.749,3.747l5.221-5.221C34.331,6.591,29.627,4,24,4 C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.61,43.83,21.319,43.611,20.083z"
+              />
+              <path
+                fill="#FF3D00"
+                d="M6.306,14.691l6.115,4.249c-1.399,4.137-0.783,8.966,1.545,12.42l-6.108,4.256 C2.88,32.355,1.06,28.275,1.06,24C1.06,19.213,2.696,14.77,6.306,14.691z"
+              />
+              <path
+                fill="#4CAF50"
+                d="M24,44c5.166,0,9.986-1.979,13.627-5.39l-6.11-4.246c-2.422,2.378-5.74,3.839-9.517,3.839 c-4.635,0-8.527-2.736-10.398-6.602l-6.115,4.249C10.749,40.89,16.891,44,24,44z"
+              />
+              <path
+                fill="#1976D2"
+                d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.226,4.209-4.138,5.64l6.115,4.249 C41.6,33.102,44,28.755,44,24C44,22.61,43.83,21.319,43.611,20.083z"
+              />
+            </svg>
+            <span>Sign in with Google</span>
+          </button>
+        </div>
+
+        {/* OR Separator */}
+        <div className="relative flex items-center mb-6">
+          <div className="flex-grow border-t border-gray-300"></div>
+          <span className="flex-shrink mx-4 text-gray-500 text-sm font-medium">
+            OR
+          </span>
+          <div className="flex-grow border-t border-gray-300"></div>
+        </div>
+
+        <form className="space-y-6" onSubmit={handleSubmit}>
           <div>
             <label
               htmlFor="email"
@@ -143,36 +165,26 @@ const RegisterPage = () => {
             />
           </div>
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
+            <div className="flex justify-between items-center">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <Link
+                to="/forgot-password"
+                className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+              >
+                Forgot password?
+              </Link>
+            </div>
             <input
               type="password"
               name="password"
               id="password"
               required
               value={formData.password}
-              onChange={handleChange}
-              className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-              placeholder="••••••••"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="confirmPassword"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              name="confirmPassword"
-              id="confirmPassword"
-              required
-              value={formData.confirmPassword}
               onChange={handleChange}
               className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               placeholder="••••••••"
@@ -210,19 +222,19 @@ const RegisterPage = () => {
                 ></path>
               </svg>
             ) : (
-              "Register"
+              "Log In"
             )}
           </button>
         </form>
 
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-500">
-            Already have an account?{" "}
+            Don't have an account?{" "}
             <Link
-              to="/login_user"
+              to="/register_user"
               className="font-medium text-blue-600 hover:text-blue-500"
             >
-              Log in
+              Register here
             </Link>
           </p>
         </div>
@@ -231,4 +243,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default LoginPage;

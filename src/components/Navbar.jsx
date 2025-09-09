@@ -108,7 +108,7 @@ const Navbar = () => {
               </li>
               <li className="md:hidden mt-4">
                 <Link
-                  to="/login"
+                  to="/login_user"
                   className="bg-blue-500 text-white px-4 py-2 rounded-full w-full block text-center hover:bg-blue-600 transition-colors duration-300"
                 >
                   Login
@@ -129,7 +129,7 @@ const Navbar = () => {
               )}
             </Link>
             <Link
-              to="/login"
+              to="/login_user"
               className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300"
             >
               Login
