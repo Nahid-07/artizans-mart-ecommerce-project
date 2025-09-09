@@ -1,8 +1,8 @@
-// src/pages/RegisterPage.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { SparklesIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { ButtonLoader } from "../components/loader/ButtonLoader";
+import { validateFormRegister } from "../libs/formValidation";
 
 const RegisterPage = () => {
   const navigate = useNavigate(); // Initialize the navigate hook
@@ -21,31 +21,9 @@ const RegisterPage = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const validateForm = () => {
-    if (
-      !formData.name ||
-      !formData.email ||
-      !formData.password ||
-      !formData.confirmPassword
-    ) {
-      setError("All fields are required.");
-      return false;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match.");
-      return false;
-    }
-    if (formData.password.length < 6) {
-      setError("Password must be at least 6 characters long.");
-      return false;
-    }
-    setError("");
-    return true;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
+    if (!validateFormRegister()) {
       return;
     }
 
@@ -61,7 +39,7 @@ const RegisterPage = () => {
       // Handle success
       console.log("Registration successful:", response);
       // You might navigate to the login page or a success page
-      navigate("/login");
+      navigate("/login_user");
     } catch (err) {
       setError("Registration failed. Please try again.");
       console.error("Registration error:", err);
@@ -189,11 +167,7 @@ const RegisterPage = () => {
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {loading ? (
-              <ButtonLoader/>
-            ) : (
-              "Register"
-            )}
+            {loading ? <ButtonLoader /> : "Register"}
           </button>
         </form>
 

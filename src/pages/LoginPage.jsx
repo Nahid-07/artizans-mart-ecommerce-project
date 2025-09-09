@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import { ButtonLoader } from "../components/loader/ButtonLoader";
+import { validateFormLogin } from "../libs/formValidation";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -18,18 +19,9 @@ const LoginPage = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
-  const validateForm = () => {
-    if (!formData.email || !formData.password) {
-      setError("Email and password are required.");
-      return false;
-    }
-    setError("");
-    return true;
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
+    if (!validateFormLogin()) {
       return;
     }
 
@@ -201,11 +193,7 @@ const LoginPage = () => {
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {loading ? (
-              <ButtonLoader/>
-            ) : (
-              "Log In"
-            )}
+            {loading ? <ButtonLoader /> : "Log In"}
           </button>
         </form>
 
