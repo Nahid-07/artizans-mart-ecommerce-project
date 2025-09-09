@@ -13,6 +13,7 @@ import ShopPage from "../components/ShopPage";
 import AboutUsPage from "../pages/AboutUsPage";
 import ThankYouPage from "../pages/ThankYouPage";
 import CategoryShopPage from "../pages/CategoryShopPage";
+import RegisterPage from "../pages/RegisterPage";
 
 export const router = createBrowserRouter([
   {
@@ -57,6 +58,10 @@ export const router = createBrowserRouter([
   {
     path: "/about_us",
     element: <AboutUsPage />,
+  },
+  {
+    path: "/register_user",
+    element: <RegisterPage />,
   },
 
   {
