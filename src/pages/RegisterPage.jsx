@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router";
 import { SparklesIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { ButtonLoader } from "../components/loader/ButtonLoader";
 import { validateFormRegister } from "../libs/formValidation";
-import { AuthContext } from "../context_API/AuthProviderContext";
+import { AuthContext } from "../context_API/authContext";
 
 const RegisterPage = () => {
   const navigate = useNavigate();

@@ -20,7 +20,7 @@ export const validateFormRegister = (formData,setError) => {
   return true;
 };
 
-export const validateFormLogin = () => {
+export const validateFormLogin = (formData,setError) => {
   if (!formData.email || !formData.password) {
     setError("Email and password are required.");
     return false;

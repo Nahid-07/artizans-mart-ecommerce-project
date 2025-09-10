@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import { ButtonLoader } from "../components/loader/ButtonLoader";
 import { validateFormLogin } from "../libs/formValidation";
+import { AuthContext } from "../context_API/authContext";
 
 const LoginPage = () => {
+  const { signInWithEmailPass } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -21,34 +23,39 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateFormLogin()) {
+
+    // 1. Validate form data and stop if it's invalid
+    if (!validateFormLogin(formData, setError)) {
       return;
     }
 
+    // 2. Set loading state and clear any previous errors
     setLoading(true);
-    // This is where your authentication logic would go.
-    try {
-      // Simulating a network request for a standard login
-      const response = await new Promise((resolve, reject) => {
-        setTimeout(() => {
-          if (
-            formData.email === "user@example.com" &&
-            formData.password === "password123"
-          ) {
-            resolve({ success: true });
-          } else {
-            reject(new Error("Invalid credentials."));
-          }
-        }, 2000);
-      });
+    setError(null);
 
-      console.log("Login successful:", response);
-      // Redirect to a different page after successful login
+    try {
+      // 3. Await the sign-in promise to ensure it's complete
+      await signInWithEmailPass(formData.email, formData.password);
+
+      // 4. Navigate only after a successful sign-in
       navigate("/");
     } catch (err) {
-      setError("Invalid email or password. Please try again.");
-      console.error("Login error:", err);
+      // 5. Catch and handle errors from the authentication process
+
+      // Provide a more specific error message based on the Firebase error code
+      if (
+        err.code === "auth/invalid-credential" ||
+        err.code === "auth/wrong-password" ||
+        err.code === "auth/user-not-found"
+      ) {
+        setError("Invalid email or password. Please try again.");
+      } else {
+        setError(
+          err.message || "An unexpected error occurred. Please try again."
+        );
+      }
     } finally {
+      // 6. Always stop the loading state, regardless of success or failure
       setLoading(false);
     }
   };
