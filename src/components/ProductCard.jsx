@@ -1,4 +1,3 @@
-import { StarIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
 import { renderStars } from "../libs/renderStars";
 
@@ -12,7 +11,6 @@ const ProductCard = ({ product }) => {
     images,
     _id,
   } = product;
-  console.log(images);
 
   return (
     <div className="relative bg-white rounded-xl shadow-lg overflow-hidden group transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl">

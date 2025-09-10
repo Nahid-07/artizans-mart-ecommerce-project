@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { SparklesIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { ButtonLoader } from "../components/loader/ButtonLoader";
 import { validateFormRegister } from "../libs/formValidation";
+import { AuthContext } from "../context_API/AuthProviderContext";
 
 const RegisterPage = () => {
-  const navigate = useNavigate(); // Initialize the navigate hook
+  const navigate = useNavigate();
+  const { createUserWithEmailPass } = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -23,26 +25,33 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateFormRegister()) {
+
+    // Validate form data
+    if (!validateFormRegister(formData, setError)) {
       return;
     }
 
     setLoading(true);
+    setError(null); // Clear any previous errors
+
     try {
-      // Simulate API call to register user
-      const response = await new Promise((resolve) =>
-        setTimeout(() => {
-          resolve({ success: true });
-        }, 2000)
+      // Await the promise to ensure user creation is complete
+      const userCredential = await createUserWithEmailPass(
+        formData.email,
+        formData.password
       );
 
-      // Handle success
-      console.log("Registration successful:", response);
-      // You might navigate to the login page or a success page
+      const user = userCredential.user;
+      if(user){
+        alert("Registration successfull")
+      }
+      // Only navigate after successful user creation
       navigate("/login_user");
     } catch (err) {
-      setError("Registration failed. Please try again.");
+      // Firebase or network errors are caught here
       console.error("Registration error:", err);
+      // Provide a more specific error message to the user
+      setError(err.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }

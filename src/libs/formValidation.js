@@ -1,4 +1,4 @@
-export const validateFormRegister = () => {
+export const validateFormRegister = (formData,setError) => {
   if (
     !formData.name ||
     !formData.email ||
