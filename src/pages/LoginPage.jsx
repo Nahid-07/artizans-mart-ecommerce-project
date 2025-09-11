@@ -7,13 +7,12 @@ import { validateFormLogin } from "../libs/formValidation";
 import { AuthContext } from "../context_API/authContext";
 
 const LoginPage = () => {
-  const { signInWithEmailPass,signInWithGoogle } = useContext(AuthContext);
+  const { signInWithEmailPass,signInWithGoogle, loading:authLoading } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleChange = (e) => {
@@ -29,8 +28,6 @@ const LoginPage = () => {
       return;
     }
 
-    // Set loading state and clear any previous errors
-    setLoading(true);
     setError(null);
 
     try {
@@ -54,9 +51,6 @@ const LoginPage = () => {
           err.message || "An unexpected error occurred. Please try again."
         );
       }
-    } finally {
-      //  Always stop the loading state, regardless of success or failure
-      setLoading(false);
     }
   };
 
@@ -66,8 +60,6 @@ const LoginPage = () => {
 
   // Google login handler
   const handleGoogleLogin = async () => {
-  // Set the loading state to true
-  setLoading(true);
   setError(null); // Clear any previous errors
 
   try {
@@ -77,12 +69,7 @@ const LoginPage = () => {
     // Navigate to a protected route after successful login
     navigate("/");
   } catch (err) {
-    // Provide a user-friendly error message
-    console.log(err)
     setError(err.message || "Google login failed. Please try again.");
-  } finally {
-    // Always set the loading state back to false
-    setLoading(false);
   }
 };
 
@@ -208,14 +195,14 @@ const LoginPage = () => {
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={authLoading}
             className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white transition-colors duration-300 ${
-              loading
+              authLoading
                 ? "bg-blue-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {loading ? <ButtonLoader /> : "Log In"}
+            {authLoading ? <ButtonLoader /> : "Log In"}
           </button>
         </form>
 
