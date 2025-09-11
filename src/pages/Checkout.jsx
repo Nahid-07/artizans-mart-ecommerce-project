@@ -17,7 +17,7 @@ const Checkout = () => {
   const [deliveryFee, setDeliveryFee] = useState(0);
 
   const orderedProductData = useLoaderData();
-  const productPrice = parseFloat(orderedProductData.data.price);
+  const productPrice = parseFloat(orderedProductData.data.offer_price);
 
   // Use useEffect to recalculate deliveryFee whenever the area changes
   useEffect(() => {
@@ -71,7 +71,6 @@ const Checkout = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         navigate('/thank-you');
         alert("Order Confirmed! Thank you for your purchase.");
       });

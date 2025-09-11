@@ -5,11 +5,14 @@ import {
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword,
+  GoogleAuthProvider, 
+  signInWithPopup
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import { AuthContext } from "./authContext";
 
 const auth = getAuth(app);
+const provider = new GoogleAuthProvider()
 
 export const AuthProviderContext = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -30,7 +33,11 @@ export const AuthProviderContext = ({ children }) => {
     setLoading(true);
     return signOut(auth);
   };
-
+  // google signIn
+  const signInWithGoogle = ()=>{
+    setLoading(true);
+    return signInWithPopup(auth,provider)
+  }
   // 3. User State Observer
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
@@ -47,6 +54,7 @@ export const AuthProviderContext = ({ children }) => {
     createUserWithEmailPass,
     signInWithEmailPass,
     logOut,
+    signInWithGoogle
   };
 
   return (

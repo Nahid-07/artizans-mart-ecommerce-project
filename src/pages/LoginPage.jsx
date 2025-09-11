@@ -7,7 +7,7 @@ import { validateFormLogin } from "../libs/formValidation";
 import { AuthContext } from "../context_API/authContext";
 
 const LoginPage = () => {
-  const { signInWithEmailPass } = useContext(AuthContext);
+  const { signInWithEmailPass,signInWithGoogle } = useContext(AuthContext);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -29,18 +29,18 @@ const LoginPage = () => {
       return;
     }
 
-    // 2. Set loading state and clear any previous errors
+    // Set loading state and clear any previous errors
     setLoading(true);
     setError(null);
 
     try {
-      // 3. Await the sign-in promise to ensure it's complete
+      // Await the sign-in promise to ensure it's complete
       await signInWithEmailPass(formData.email, formData.password);
 
-      // 4. Navigate only after a successful sign-in
+      //  Navigate only after a successful sign-in
       navigate("/");
     } catch (err) {
-      // 5. Catch and handle errors from the authentication process
+      // Catch and handle errors from the authentication process
 
       // Provide a more specific error message based on the Firebase error code
       if (
@@ -55,7 +55,7 @@ const LoginPage = () => {
         );
       }
     } finally {
-      // 6. Always stop the loading state, regardless of success or failure
+      //  Always stop the loading state, regardless of success or failure
       setLoading(false);
     }
   };
@@ -64,12 +64,27 @@ const LoginPage = () => {
     navigate(-1);
   };
 
-  // Google login handler (placeholder as requested)
-  const handleGoogleLogin = () => {
-    // Alert or log a message to show the button is working
-    alert("Google login button clicked!");
-    // Real Google login logic would go here
-  };
+  // Google login handler
+  const handleGoogleLogin = async () => {
+  // Set the loading state to true
+  setLoading(true);
+  setError(null); // Clear any previous errors
+
+  try {
+    // Await the sign-in function to handle the asynchronous nature of the operation
+    await signInWithGoogle();
+    
+    // Navigate to a protected route after successful login
+    navigate("/");
+  } catch (err) {
+    // Provide a user-friendly error message
+    console.log(err)
+    setError(err.message || "Google login failed. Please try again.");
+  } finally {
+    // Always set the loading state back to false
+    setLoading(false);
+  }
+};
 
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">

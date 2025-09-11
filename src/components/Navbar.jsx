@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import {
   Bars3Icon,
   XMarkIcon,
@@ -7,8 +7,10 @@ import {
 } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
 import SearchModal from "./SearchModal";
+import { AuthContext } from "../context_API/authContext";
 
 const Navbar = () => {
+  const { user, logOut } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false); // New state for search modal
   const [cartItemCount, setCartItemCount] = useState(0);
@@ -107,12 +109,18 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className="md:hidden mt-4">
-                <Link
-                  to="/login_user"
-                  className="bg-blue-500 text-white px-4 py-2 rounded-full w-full block text-center hover:bg-blue-600 transition-colors duration-300"
-                >
-                  Login
-                </Link>
+                {!user?.email ? (
+                  <Link
+                    to="/login_user"
+                    className="bg-blue-500 text-white px-4 py-2 rounded-full w-full block text-center hover:bg-blue-600 transition-colors duration-300"
+                  >
+                    Login
+                  </Link>
+                ) : (
+                  <button onClick={()=> logOut()} className="bg-blue-500 text-white px-4 py-2 rounded-full w-full block text-center hover:bg-blue-600 transition-colors duration-300">
+                    Log out
+                  </button>
+                )}
               </li>
             </ul>
           </div>
@@ -128,12 +136,18 @@ const Navbar = () => {
                 </span>
               )}
             </Link>
-            <Link
-              to="/login_user"
-              className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300"
-            >
-              Login
-            </Link>
+            {!user?.email ? (
+              <Link
+                to="/login_user"
+                className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300"
+              >
+                Login
+              </Link>
+            ) : (
+              <button onClick={()=> logOut()} className="bg-blue-500 text-white px-4 py-2 rounded-full w-full block text-center hover:bg-blue-600 transition-colors duration-300">
+                Log out
+              </button>
+            )}
           </div>
         </div>
       </nav>
