@@ -1,15 +1,17 @@
-import { Link, useLoaderData } from "react-router";
+import { Link, useLoaderData, useParams } from "react-router";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import Navbar from "../components/Navbar";
 import ProductReviews from "../components/ProductReviews";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { renderStars } from "../libs/renderStars";
 import Footer from "../components/Footer";
 
 const ProductDetails = () => {
   const { data: productData, filterRiview } = useLoaderData();
   const [mainImage, setMainImage] = useState(productData.images[0]);
-
+  useEffect(() => {
+    setMainImage(productData.images[0]);
+  }, [productData]);
   return (
     <div>
       <Navbar />
@@ -106,7 +108,7 @@ const ProductDetails = () => {
         </div>
       </div>
       <ProductReviews productId={productData._id} />
-      <Footer/>
+      <Footer />
     </div>
   );
 };

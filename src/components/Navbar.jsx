@@ -5,19 +5,23 @@ import {
   MagnifyingGlassIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router";
+import { Link } from "react-router"; // Use react-router-dom for Link
 import SearchModal from "./SearchModal";
 import { AuthContext } from "../context_API/authContext";
+import { SearchBarDesktop } from "./SearchBarDesktop";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
-  const [isOpen, setIsOpen] = useState(false);
-  const [searchModalOpen, setSearchModalOpen] = useState(false); // New state for search modal
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [searchModalOpen, setSearchModalOpen] = useState(false);
   const [cartItemCount, setCartItemCount] = useState(0);
 
-  const toggleMenu = () => setIsOpen(!isOpen);
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openSearchModal = () => setSearchModalOpen(true);
   const closeSearchModal = () => setSearchModalOpen(false);
+  const handleLogOut = () => {
+    logOut();
+  };
 
   return (
     <>
@@ -54,7 +58,7 @@ const Navbar = () => {
                 onClick={toggleMenu}
                 className="text-gray-800 focus:outline-none"
               >
-                {isOpen ? (
+                {isMenuOpen ? (
                   <XMarkIcon className="h-6 w-6" />
                 ) : (
                   <Bars3Icon className="h-6 w-6" />
@@ -65,22 +69,13 @@ const Navbar = () => {
 
           {/* Middle Part: Search Bar (Desktop Only) */}
           <div className="hidden md:flex flex-grow items-center md:justify-center">
-            <div className="relative w-full max-w-lg">
-              <input
-                type="text"
-                placeholder="Search products..."
-                className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-400" />
-              </div>
-            </div>
+            <SearchBarDesktop />
           </div>
 
           {/* Right Part: Menu Items & Icons */}
           <div
             className={`md:flex md:items-center md:space-x-6 ${
-              isOpen ? "block" : "hidden"
+              isMenuOpen ? "block" : "hidden"
             }`}
           >
             <ul className="flex flex-col md:flex-row md:space-x-8 px-4 py-8 md:py-0">
@@ -108,6 +103,7 @@ const Navbar = () => {
                   About Us
                 </Link>
               </li>
+              {/* Login/Logout for mobile menu */}
               <li className="md:hidden mt-4">
                 {!user?.email ? (
                   <Link
@@ -117,7 +113,10 @@ const Navbar = () => {
                     Login
                   </Link>
                 ) : (
-                  <button onClick={()=> logOut()} className="bg-blue-500 text-white px-4 py-2 rounded-full w-full block text-center hover:bg-blue-600 transition-colors duration-300">
+                  <button
+                    onClick={handleLogOut}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-full w-full block text-center hover:bg-blue-600 transition-colors duration-300"
+                  >
                     Log out
                   </button>
                 )}
@@ -144,7 +143,10 @@ const Navbar = () => {
                 Login
               </Link>
             ) : (
-              <button onClick={()=> logOut()} className="bg-blue-500 text-white px-4 py-2 rounded-full w-full block text-center hover:bg-blue-600 transition-colors duration-300">
+              <button
+                onClick={handleLogOut}
+                className="bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition-colors duration-300"
+              >
                 Log out
               </button>
             )}

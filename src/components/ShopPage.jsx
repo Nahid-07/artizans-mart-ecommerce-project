@@ -7,7 +7,6 @@ import Footer from "./Footer";
 
 const ShopPage = () => {
   const { category } = useParams();
-  console.log(category)
   const [filters, setFilters] = useState({
     category: category || "All",
     priceRange: "All",
