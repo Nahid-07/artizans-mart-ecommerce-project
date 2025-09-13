@@ -8,6 +8,7 @@ import { AuthContext } from "../context_API/authContext";
 
 const LoginPage = () => {
   const { signInWithEmailPass,signInWithGoogle, loading:authLoading } = useContext(AuthContext);
+    const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -27,7 +28,7 @@ const LoginPage = () => {
     if (!validateFormLogin(formData, setError)) {
       return;
     }
-
+    setLoading(true)
     setError(null);
 
     try {
@@ -51,7 +52,10 @@ const LoginPage = () => {
           err.message || "An unexpected error occurred. Please try again."
         );
       }
+    }finally{
+      setLoading(false)
     }
+
   };
 
   const handleGoBack = () => {
@@ -195,14 +199,14 @@ const LoginPage = () => {
 
           <button
             type="submit"
-            disabled={authLoading}
+            disabled={loading}
             className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm font-medium text-white transition-colors duration-300 ${
-              authLoading
+              loading
                 ? "bg-blue-400 cursor-not-allowed"
                 : "bg-blue-600 hover:bg-blue-700"
             }`}
           >
-            {authLoading ? <ButtonLoader /> : "Log In"}
+            {loading ? <ButtonLoader /> : "Log In"}
           </button>
         </form>
 

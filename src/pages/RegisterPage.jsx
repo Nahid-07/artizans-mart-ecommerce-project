@@ -7,7 +7,7 @@ import { AuthContext } from "../context_API/authContext";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const { createUserWithEmailPass } = useContext(AuthContext);
+  const { createUserWithEmailPass , updateUserProfile} = useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -40,13 +40,12 @@ const RegisterPage = () => {
         formData.email,
         formData.password
       );
-
       const user = userCredential.user;
       if(user){
         alert("Registration successfull")
       }
       // Only navigate after successful user creation
-      navigate("/login_user");
+      navigate("/");
     } catch (err) {
       // Firebase or network errors are caught here
       console.error("Registration error:", err);

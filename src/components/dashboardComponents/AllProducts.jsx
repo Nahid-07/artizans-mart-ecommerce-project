@@ -17,18 +17,32 @@ const AllProducts = () => {
   }, []);
 
   const handleDelete = async (productId) => {
-    // In a real application, you would send a DELETE request to your backend
+    confirm("Are you sure you want to delete this product?")
     fetch(`http://localhost:5000/delete-a-product/${productId}`, {
       method: "DELETE",
     })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.deletedCount > 0) {
-          setProducts(products.filter((product) => product._id !== productId));
-          alert(`Product ${productId} has been deleted.`);
+      .then((res) => {
+        // Check if the response is ok (status code 200-299)
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
         }
+        return res.json();
+      })
+      .then((data) => {
+        // Correctly access the nested deletedCount property
+        if (data.result.deletedCount > 0) {
+          setProducts(products.filter((product) => product._id !== productId));
+          alert(`Product has been deleted.`);
+        } else {
+          // Handle cases where the product was not found (e.g., deletedCount is 0)
+          alert("Product not found or already deleted.");
+        }
+      })
+      .catch((error) => {
+        // Handle fetch errors or network issues
+        console.error("There was a problem with the fetch operation:", error);
+        alert("An error occurred while trying to delete the product.");
       });
-    // Optimistically update the UI
   };
 
   if (loading) {

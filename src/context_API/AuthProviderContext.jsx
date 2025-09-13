@@ -6,7 +6,8 @@ import {
   signOut,
   signInWithEmailAndPassword,
   GoogleAuthProvider, 
-  signInWithPopup
+  signInWithPopup,
+  updateProfile
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import { AuthContext } from "./authContext";
