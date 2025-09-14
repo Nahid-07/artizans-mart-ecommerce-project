@@ -1,13 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useParams, Link, useLoaderData } from "react-router";
 import { renderStars } from "../libs/renderStars";
 
 const CategoryShopPage = () => {
-  const data = useLoaderData();
+  const loadedData = useLoaderData();
+  // Ensure loadedData is an array before using it
+  const data = Array.isArray(loadedData) ? loadedData : [];
+
   const { category } = useParams();
   const [filters, setFilters] = useState({ priceRange: "All", rating: 0 });
 
-  const filteredProducts = data?.filter((product) => {
+  const filteredProducts = data.filter((product) => {
     // Simplified price filter logic
     const priceMatch = true;
     // Rating filter
