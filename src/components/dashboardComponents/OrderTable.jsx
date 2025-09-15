@@ -20,19 +20,43 @@ const OrderTable = ({ orders }) => {
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
+              Address
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Phone
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Delivery zone
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
               Product
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Total Price
+              Quantity
             </th>
             <th
               scope="col"
               className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Adress
+              Product price
+            </th>
+            <th
+              scope="col"
+              className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+            >
+              Total Price
             </th>
             <th
               scope="col"
@@ -56,17 +80,30 @@ const OrderTable = ({ orders }) => {
                 {order._id}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {order.customerInfo.name}
+                {order.shippingInfo.name}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {order?.product}
+                {order.shippingInfo.address}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                ৳{order.total.toFixed(2)}
+                {order.shippingInfo.phone}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {order.customerInfo.address}
+                {order.shippingInfo.area}
               </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {order.items.map(pd => pd.name)}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-center text-gray-500">
+                {order.items.map(pd => pd.quantity)}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                {order.items.map(pd => pd.price)}
+              </td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                ৳{order.total}
+              </td>
+              
               {/* <td className="px-6 py-4 whitespace-nowrap text-sm">
                 <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
                   order.status === 'Pending' ? 'bg-yellow-100 text-yellow-800' :
@@ -77,7 +114,7 @@ const OrderTable = ({ orders }) => {
                 </span>
               </td> */}
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {order.customerInfo.note}
+                {order.shippingInfo.note}
               </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                 {order?.date}

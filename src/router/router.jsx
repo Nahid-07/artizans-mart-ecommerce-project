@@ -15,6 +15,8 @@ import ThankYouPage from "../pages/ThankYouPage";
 import CategoryShopPage from "../pages/CategoryShopPage";
 import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
+import CartPage from "../pages/CartPage";
+import CheckoutPageFromCart from "../pages/CheckoutPageFromCart";
 
 export const router = createBrowserRouter([
   {
@@ -36,10 +38,19 @@ export const router = createBrowserRouter([
       fetch(`http://localhost:5000/products/${params?.id}`),
   },
   {
+    path: '/cart',
+    element: <CartPage/>
+  },
+  {
     path: "/checkout/:id",
     element: <Checkout />,
     loader: ({ params }) =>
       fetch(`http://localhost:5000/products/${params?.id}`),
+  },
+
+  {
+path:'/checkout',
+element: <CheckoutPageFromCart/>
   },
   {
     path: "/shop",

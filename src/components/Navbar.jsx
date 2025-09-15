@@ -9,12 +9,13 @@ import { Link } from "react-router"; // Use react-router-dom for Link
 import SearchModal from "./SearchModal";
 import { AuthContext } from "../context_API/authContext";
 import { SearchBarDesktop } from "./SearchBarDesktop";
+import { useCart } from "../context_API/CartProvider";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const [cartItemCount, setCartItemCount] = useState(0);
+  const {cartItems} = useCart()
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openSearchModal = () => setSearchModalOpen(true);
@@ -48,9 +49,9 @@ const Navbar = () => {
                 className="relative text-gray-800 hover:text-blue-500 transition-colors duration-300"
               >
                 <ShoppingCartIcon className="h-6 w-6" />
-                {cartItemCount > 0 && (
+                {cartItems.length > 0 && (
                   <span className="absolute -top-1 -right-2 inline-flex items-center justify-center h-4 w-4 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                    {cartItemCount}
+                    {cartItems.length}
                   </span>
                 )}
               </Link>
@@ -125,13 +126,13 @@ const Navbar = () => {
           </div>
           <div className="hidden md:flex items-center space-x-6">
             <Link
-              to="/add-to-cart"
+              to="/cart"
               className="relative text-gray-800 hover:text-blue-500 transition-colors duration-300"
             >
               <ShoppingCartIcon className="h-6 w-6" />
-              {cartItemCount > 0 && (
+              {cartItems.length > 0 && (
                 <span className="absolute -top-1 -right-2 inline-flex items-center justify-center h-4 w-4 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                  {cartItemCount}
+                  {cartItems.length}
                 </span>
               )}
             </Link>
