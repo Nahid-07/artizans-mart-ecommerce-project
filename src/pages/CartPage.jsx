@@ -4,9 +4,8 @@ import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useCart } from "../context_API/CartProvider";
+import { useCart } from "../hooks/useCart";
 
-// This component receives cartItems and functions to manage them as props
 const CartPage = () => {
   const [cartTotal, setCartTotal] = useState(0);
   const { cartItems, handleRemoveItem, handleUpdateQuantity } = useCart();

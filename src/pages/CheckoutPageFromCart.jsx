@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router"; // Use react-router-dom
-import { useCart } from "../context_API/CartProvider";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
+import { useCart } from "../hooks/useCart";
 
 const CheckoutPageFromCart = () => {
-  const { cartItems } = useCart(); // Assuming you have a clear cart function
+  const { cartItems, handleRemoveCartItems } = useCart(); // Assuming you have a clear cart function
   const navigate = useNavigate();
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
@@ -92,6 +92,7 @@ const CheckoutPageFromCart = () => {
         // Clear the cart on success if you have that function in context
         // handleClearCart();
         alert("Order confirmed! Thank you for your purchase.");
+        handleRemoveCartItems()
         navigate('/thank-you');
       } else {
         alert("Order could not be placed. Please try again.");

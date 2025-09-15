@@ -9,7 +9,7 @@ import { Link } from "react-router"; // Use react-router-dom for Link
 import SearchModal from "./SearchModal";
 import { AuthContext } from "../context_API/authContext";
 import { SearchBarDesktop } from "./SearchBarDesktop";
-import { useCart } from "../context_API/CartProvider";
+import { useCart } from "../hooks/useCart";
 
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);

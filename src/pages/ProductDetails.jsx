@@ -5,7 +5,7 @@ import ProductReviews from "../components/ProductReviews";
 import { useEffect, useState } from "react";
 import { renderStars } from "../libs/renderStars";
 import Footer from "../components/Footer";
-import { useCart } from "../context_API/CartProvider";
+import { useCart } from "../hooks/useCart";
 
 const ProductDetails = () => {
   const { data: productData, filterRiview } = useLoaderData();
