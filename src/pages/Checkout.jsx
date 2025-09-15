@@ -11,12 +11,13 @@ const Checkout = () => {
     address: "",
     note: "",
   });
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // Use a state variable for shippingFee to make it reactive
   const [shippingFee, setShippingFee] = useState(0);
 
   const orderedProductData = useLoaderData();
+  console.log(orderedProductData)
   const productPrice = parseFloat(orderedProductData.data.offer_price);
 
   // Use useEffect to recalculate shippingFee whenever the area changes
@@ -33,7 +34,7 @@ const Checkout = () => {
       newshippingFee = 120;
     }
     setShippingFee(newshippingFee);
-  }, [shippingInfo.area]); // Dependency array: runs whenever shippingInfo.area changes
+  }, [shippingInfo.area]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,12 +56,17 @@ const Checkout = () => {
     const formattedDate = `${year}-${month}-${day}`;
     const orderDetails = {
       shippingInfo,
-      productPrice,
+      items: [{
+        id: orderedProductData.data._id,
+        name: orderedProductData.data.name,
+        price: orderedProductData.data.offer_price,
+        quantity: 1,
+      }],
       shippingFee,
       total: productPrice + shippingFee,
-      product: orderedProductData.data.name,
-      date: formattedDate
+      date: formattedDate,
     };
+    console.log(orderDetails)
 
     fetch("http://localhost:5000/place-order", {
       method: "POST",
@@ -71,7 +77,7 @@ const Checkout = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        navigate('/thank-you');
+        navigate("/thank-you");
         alert("Order Confirmed! Thank you for your purchase.");
       });
   };
