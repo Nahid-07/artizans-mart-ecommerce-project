@@ -61,7 +61,7 @@
 
 //   const handleUpdate = (e) => {
 //     e.preventDefault();
-//     fetch(`http://localhost:5000/update-product/${data._id}`, {
+//     fetch(`https://artizans-mart-ecom-server.vercel.app/update-product/${data._id}`, {
 //       method: "PUT",
 //       headers: {
 //         "content-type": "application/json",
@@ -397,7 +397,7 @@ const ProductUpdateForm = () => {
     };
 
     try {
-      const res = await fetch(`http://localhost:5000/update-product/${data._id}`, {
+      const res = await fetch(`https://artizans-mart-ecom-server.vercel.app/update-product/${data._id}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",

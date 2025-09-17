@@ -58,7 +58,7 @@
 
 //   const handleSubmit = (e) => {
 //     e.preventDefault();
-//     fetch("http://localhost:5000/addProduct", {
+//     fetch("https://artizans-mart-ecom-server.vercel.app/addProduct", {
 //       method: "POST",
 //       headers: {
 //         "content-type": "application/json",
@@ -386,7 +386,7 @@ const ProductAddForm = () => {
       reviews_count: 0,
     };
 
-    fetch("http://localhost:5000/addProduct", {
+    fetch("https://artizans-mart-ecom-server.vercel.app/addProduct", {
       method: "POST",
       headers: {
         "content-type": "application/json",

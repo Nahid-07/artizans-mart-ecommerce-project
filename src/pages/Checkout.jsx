@@ -66,7 +66,7 @@ const Checkout = () => {
       date: formattedDate,
     };
 
-    fetch("http://localhost:5000/place-order", {
+    fetch("https://artizans-mart-ecom-server.vercel.app/place-order", {
       method: "POST",
       headers: {
         "content-type": "application/json",

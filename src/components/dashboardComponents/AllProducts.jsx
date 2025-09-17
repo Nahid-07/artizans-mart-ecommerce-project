@@ -9,7 +9,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     // In a real application, you would fetch data from your API
-    fetch("http://localhost:5000/products")
+    fetch("https://artizans-mart-ecom-server.vercel.app/products")
       .then((res) => res.json())
       .then((products) => setProducts(products));
 
@@ -17,32 +17,38 @@ const AllProducts = () => {
   }, []);
 
   const handleDelete = async (productId) => {
-    confirm("Are you sure you want to delete this product?")
-    fetch(`http://localhost:5000/delete-a-product/${productId}`, {
-      method: "DELETE",
-    })
-      .then((res) => {
-        // Check if the response is ok (status code 200-299)
-        if (!res.ok) {
-          throw new Error("Network response was not ok");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this product?"
+    );
+
+    if (!isConfirmed) {
+      return;
+    }
+
+    try {
+      const res = await fetch(
+        `https://artizans-mart-ecom-server.vercel.app/delete-a-product/${productId}`,
+        {
+          method: "DELETE",
         }
-        return res.json();
-      })
-      .then((data) => {
-        // Correctly access the nested deletedCount property
-        if (data.result.deletedCount > 0) {
-          setProducts(products.filter((product) => product._id !== productId));
-          alert(`Product has been deleted.`);
-        } else {
-          // Handle cases where the product was not found (e.g., deletedCount is 0)
-          alert("Product not found or already deleted.");
-        }
-      })
-      .catch((error) => {
-        // Handle fetch errors or network issues
-        console.error("There was a problem with the fetch operation:", error);
-        alert("An error occurred while trying to delete the product.");
-      });
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to delete product. Server response not OK.");
+      }
+
+      const data = await res.json();
+
+      if (data.result.deletedCount > 0) {
+        setProducts(products.filter((product) => product._id !== productId));
+        // Optional: use a more styled notification than alert()
+        alert("Product has been successfully deleted.");
+      } else {
+        alert("Product not found or already deleted.");
+      }
+    } catch (error) {
+      alert(`An error occurred: ${error.message}`);
+    }
   };
 
   if (loading) {

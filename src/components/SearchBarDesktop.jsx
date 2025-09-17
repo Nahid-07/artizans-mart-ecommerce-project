@@ -17,7 +17,7 @@ export const SearchBarDesktop = () => {
         setLoading(true);
         try {
           const response = await fetch(
-            `http://localhost:5000/search?q=${searchQuery}`
+            `https://artizans-mart-ecom-server.vercel.app/search?q=${searchQuery}`
           );
           const data = await response.json();
           setResults(data);

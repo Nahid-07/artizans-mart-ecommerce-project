@@ -72,7 +72,7 @@ const CheckoutPageFromCart = () => {
       date: formattedDate
     };
     try {
-      const res = await fetch("http://localhost:5000/place-order", {
+      const res = await fetch("https://artizans-mart-ecom-server.vercel.app/place-order", {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -90,8 +90,8 @@ const CheckoutPageFromCart = () => {
       if (data) {
         // Clear the cart on success if you have that function in context
         // handleClearCart();
-        alert("Order confirmed! Thank you for your purchase.");
         handleRemoveCartItems()
+        alert("Order confirmed! Thank you for your purchase.");
         navigate('/thank-you');
       } else {
         alert("Order could not be placed. Please try again.");

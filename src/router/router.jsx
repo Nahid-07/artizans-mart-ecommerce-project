@@ -35,7 +35,7 @@ export const router = createBrowserRouter([
     path: "/productDetails/:id",
     element: <ProductDetails />,
     loader: ({ params }) =>
-      fetch(`http://localhost:5000/products/${params?.id}`),
+      fetch(`https://artizans-mart-ecom-server.vercel.app/products/${params?.id}`),
   },
   {
     path: '/cart',
@@ -45,7 +45,7 @@ export const router = createBrowserRouter([
     path: "/checkout/:id",
     element: <Checkout />,
     loader: ({ params }) =>
-      fetch(`http://localhost:5000/products/${params?.id}`),
+      fetch(`https://artizans-mart-ecom-server.vercel.app/products/${params?.id}`),
   },
 
   {
@@ -55,13 +55,13 @@ element: <CheckoutPageFromCart/>
   {
     path: "/shop",
     element: <ShopPage />,
-    loader: () => fetch("http://localhost:5000/products"),
+    loader: () => fetch("https://artizans-mart-ecom-server.vercel.app/products"),
   },
   {
     path: "/category/:category",
     element: <CategoryShopPage />,
     loader: ({ params }) =>
-      fetch(`http://localhost:5000/category/${params?.category}`),
+      fetch(`https://artizans-mart-ecom-server.vercel.app/category/${params?.category}`),
   },
   {
     path: "/thank-you",
@@ -93,7 +93,7 @@ element: <CheckoutPageFromCart/>
         path: "/dashboard/update-product/:id",
         element: <ProductUpdateForm />,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/products/${params?.id}`),
+          fetch(`https://artizans-mart-ecom-server.vercel.app/products/${params?.id}`),
       },
       {
         path: "/dashboard/orders",

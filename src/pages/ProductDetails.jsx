@@ -10,15 +10,20 @@ import { useCart } from "../hooks/useCart";
 const ProductDetails = () => {
   const { data: productData, filterRiview } = useLoaderData();
   const [mainImage, setMainImage] = useState(productData.images[0]);
-  const {handleAddToCart } = useCart()
+  const [loading, setLoading] = useState(true);
+  const { handleAddToCart } = useCart();
   useEffect(() => {
+    setLoading(true);
     setMainImage(productData.images[0]);
   }, [productData]);
-  
+
+  if (loading) {
+    return <div className="text-center py-16">Loading...</div>;
+  }
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="bg-white py-12 mt-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:space-x-12">
@@ -84,7 +89,10 @@ const ProductDetails = () => {
                 </p>
               ) : (
                 <div className="mt-8 flex space-x-4">
-                  <button onClick={()=>handleAddToCart(productData)} className="cursor-pointer flex-1 flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition-colors transform hover:scale-105">
+                  <button
+                    onClick={() => handleAddToCart(productData)}
+                    className="cursor-pointer flex-1 flex items-center justify-center bg-blue-600 text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-blue-700 transition-colors transform hover:scale-105"
+                  >
                     <ShoppingCartIcon className="h-5 w-5 mr-2" />
                     Add to Cart
                   </button>
