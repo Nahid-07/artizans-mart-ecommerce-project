@@ -3,7 +3,6 @@ import OrderTable from '../dashboardComponents/OrderTable';
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
-  console.log(orders)
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

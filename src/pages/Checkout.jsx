@@ -17,7 +17,6 @@ const Checkout = () => {
   const [shippingFee, setShippingFee] = useState(0);
 
   const orderedProductData = useLoaderData();
-  console.log(orderedProductData)
   const productPrice = parseFloat(orderedProductData.data.offer_price);
 
   // Use useEffect to recalculate shippingFee whenever the area changes
@@ -66,7 +65,6 @@ const Checkout = () => {
       total: productPrice + shippingFee,
       date: formattedDate,
     };
-    console.log(orderDetails)
 
     fetch("http://localhost:5000/place-order", {
       method: "POST",

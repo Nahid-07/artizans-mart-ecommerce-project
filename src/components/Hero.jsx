@@ -24,7 +24,7 @@ const Hero = () => {
                 Shop Now
               </Link>
               <Link
-                to="#"
+                to="/about_us"
                 className="ml-4 text-blue-600 border border-blue-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-blue-50 transition-colors duration-300 transform hover:scale-105"
               >
                 Learn More

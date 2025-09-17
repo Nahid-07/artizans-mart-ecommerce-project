@@ -1,6 +1,5 @@
 import Navbar from "../../components/Navbar";
 import Hero from "../../components/Hero";
-import ProductGrid from "../../components/ProductGrid";
 import { Outlet } from "react-router";
 import Categories from "../../components/Categories";
 import Newsletter from "../../components/Newsletter";
@@ -10,6 +9,7 @@ import Footer from "../../components/Footer";
 export const HomePageLayout = () => {
   return (
     <>
+    <title>Artizans' Mart_ home</title>
       <header>
         <Navbar />
       </header>

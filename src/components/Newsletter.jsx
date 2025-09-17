@@ -18,9 +18,6 @@ const Newsletter = () => {
       return;
     }
 
-    // In a real application, you would send the email to your backend API here
-    console.log("Subscribing with email:", email);
-
     // Simulate a successful subscription
     setIsSubmitted(true);
     setEmail("");

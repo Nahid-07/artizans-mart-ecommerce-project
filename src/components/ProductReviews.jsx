@@ -54,7 +54,7 @@ const ProductReviews = ({ productId, initialReviews = [] }) => {
           "content-type": "application/json"
         },
         body: JSON.stringify(newReview)
-      }).then(res => res.json()).then(data => console.log(data))
+      }).then(res => res.json()).then(data => data)
     }
   };
 

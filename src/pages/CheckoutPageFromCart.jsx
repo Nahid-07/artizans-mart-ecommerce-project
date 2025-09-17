@@ -71,7 +71,6 @@ const CheckoutPageFromCart = () => {
       total,
       date: formattedDate
     };
-    console.log(orderDetails)
     try {
       const res = await fetch("http://localhost:5000/place-order", {
         method: "POST",
