@@ -58,7 +58,7 @@
 
 //   const handleSubmit = (e) => {
 //     e.preventDefault();
-//     fetch("https://artizans-mart-ecom-server.vercel.app/addProduct", {
+//     fetch("https://artizans-mart-ecommerce-server.onrender.com/addProduct", {
 //       method: "POST",
 //       headers: {
 //         "content-type": "application/json",
@@ -386,7 +386,7 @@ const ProductAddForm = () => {
       reviews_count: 0,
     };
 
-    fetch("https://artizans-mart-ecom-server.vercel.app/addProduct", {
+    fetch("https://artizans-mart-ecommerce-server.onrender.com/addProduct", {
       method: "POST",
       headers: {
         "content-type": "application/json",

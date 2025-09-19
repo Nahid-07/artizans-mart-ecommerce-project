@@ -8,7 +8,7 @@ const OrdersPage = () => {
   useEffect(() => {
     // In a real app, you would fetch data from your API
     const fetchOrders = async () => {
-      const response = await fetch('https://artizans-mart-ecom-server.vercel.app/orders');
+      const response = await fetch('https://artizans-mart-ecommerce-server.onrender.com/orders');
       const data = await response.json();
       setOrders(data);
       setLoading(false);

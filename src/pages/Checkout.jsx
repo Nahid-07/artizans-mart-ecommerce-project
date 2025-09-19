@@ -66,7 +66,7 @@ const Checkout = () => {
       date: formattedDate,
     };
 
-    fetch("https://artizans-mart-ecom-server.vercel.app/place-order", {
+    fetch("https://artizans-mart-ecommerce-server.onrender.com/place-order", {
       method: "POST",
       headers: {
         "content-type": "application/json",

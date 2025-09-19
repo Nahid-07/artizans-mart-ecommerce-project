@@ -72,7 +72,7 @@ const CheckoutPageFromCart = () => {
       date: formattedDate
     };
     try {
-      const res = await fetch("https://artizans-mart-ecom-server.vercel.app/place-order", {
+      const res = await fetch("https://artizans-mart-ecommerce-server.onrender.com/place-order", {
         method: "POST",
         headers: {
           "content-type": "application/json",

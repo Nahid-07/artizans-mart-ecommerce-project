@@ -17,7 +17,7 @@ export const SearchBarDesktop = () => {
         setLoading(true);
         try {
           const response = await fetch(
-            `https://artizans-mart-ecom-server.vercel.app/search?q=${searchQuery}`
+            `https://artizans-mart-ecommerce-server.onrender.com/search?q=${searchQuery}`
           );
           const data = await response.json();
           setResults(data);

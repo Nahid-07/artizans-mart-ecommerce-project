@@ -9,7 +9,7 @@ const AllProducts = () => {
 
   useEffect(() => {
     // In a real application, you would fetch data from your API
-    fetch("https://artizans-mart-ecom-server.vercel.app/products")
+    fetch("https://artizans-mart-ecommerce-server.onrender.com/products")
       .then((res) => res.json())
       .then((products) => setProducts(products));
 
@@ -27,7 +27,7 @@ const AllProducts = () => {
 
     try {
       const res = await fetch(
-        `https://artizans-mart-ecom-server.vercel.app/delete-a-product/${productId}`,
+        `https://artizans-mart-ecommerce-server.onrender.com/delete-a-product/${productId}`,
         {
           method: "DELETE",
         }

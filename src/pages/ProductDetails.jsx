@@ -10,16 +10,11 @@ import { useCart } from "../hooks/useCart";
 const ProductDetails = () => {
   const { data: productData, filterRiview } = useLoaderData();
   const [mainImage, setMainImage] = useState(productData.images[0]);
-  const [loading, setLoading] = useState(true);
   const { handleAddToCart } = useCart();
   useEffect(() => {
-    setLoading(true);
     setMainImage(productData.images[0]);
   }, [productData]);
 
-  if (loading) {
-    return <div className="text-center py-16">Loading...</div>;
-  }
 
   return (
     <div>

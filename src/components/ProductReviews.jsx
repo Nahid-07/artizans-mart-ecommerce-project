@@ -8,7 +8,7 @@ const ProductReviews = ({ productId, initialReviews = [] }) => {
   const {id} = useParams()
 
   useEffect(()=>{
-    fetch('https://artizans-mart-ecom-server.vercel.app/reviews')
+    fetch('https://artizans-mart-ecommerce-server.onrender.com/reviews')
     .then(res => res.json())
     .then(data =>{
       const filterReviews = data.filter(i => i.productId === id)
@@ -48,7 +48,7 @@ const ProductReviews = ({ productId, initialReviews = [] }) => {
       };
       setReviews([submittedReview, ...reviews]);
       setNewReview({ author: '', rating: 0, comment: '' })
-      fetch('https://artizans-mart-ecom-server.vercel.app/reviews',{
+      fetch('https://artizans-mart-ecommerce-server.onrender.com/reviews',{
         method: "POST",
         headers: {
           "content-type": "application/json"

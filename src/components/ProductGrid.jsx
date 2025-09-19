@@ -6,7 +6,7 @@ const ProductGrid = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("https://artizans-mart-ecom-server.vercel.app/featured-products")
+    fetch("https://artizans-mart-ecommerce-server.onrender.com/featured-products")
       .then((res) => res.json())
       .then((data) => {
         setProducts(data);

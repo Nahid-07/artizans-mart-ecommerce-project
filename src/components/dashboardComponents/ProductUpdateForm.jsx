@@ -61,7 +61,7 @@
 
 //   const handleUpdate = (e) => {
 //     e.preventDefault();
-//     fetch(`https://artizans-mart-ecom-server.vercel.app/update-product/${data._id}`, {
+//     fetch(`https://artizans-mart-ecommerce-server.onrender.com/update-product/${data._id}`, {
 //       method: "PUT",
 //       headers: {
 //         "content-type": "application/json",
@@ -397,7 +397,7 @@ const ProductUpdateForm = () => {
     };
 
     try {
-      const res = await fetch(`https://artizans-mart-ecom-server.vercel.app/update-product/${data._id}`, {
+      const res = await fetch(`https://artizans-mart-ecommerce-server.onrender.com/update-product/${data._id}`, {
         method: "PUT",
         headers: {
           "content-type": "application/json",
