@@ -47,9 +47,9 @@ export const CartProvider = ({ children }) => {
     );
   };
 
-  const handleRemoveCartItems = () =>{
-    localStorage.removeItem("cartItems")
-  }
+  const handleRemoveCartItems = () => {
+    setCartItems([])
+  };
 
   // 4. Create the context value
   const contextValue = {
@@ -57,7 +57,7 @@ export const CartProvider = ({ children }) => {
     handleAddToCart,
     handleRemoveItem,
     handleUpdateQuantity,
-    handleRemoveCartItems
+    handleRemoveCartItems,
   };
 
   // 5. Provide the value to child components

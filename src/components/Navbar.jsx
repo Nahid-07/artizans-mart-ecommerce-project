@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import {
   Bars3Icon,
   XMarkIcon,
@@ -15,7 +15,7 @@ const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const {cartItems} = useCart()
+  const {cartItems, setCartItems} = useCart()
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openSearchModal = () => setSearchModalOpen(true);
@@ -23,7 +23,6 @@ const Navbar = () => {
   const handleLogOut = () => {
     logOut();
   };
-
   return (
     <>
       <nav className="bg-white shadow-lg fixed w-full top-0 left-0 z-50">

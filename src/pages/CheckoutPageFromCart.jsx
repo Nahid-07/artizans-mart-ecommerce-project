@@ -85,11 +85,7 @@ const CheckoutPageFromCart = () => {
       }
 
       const data = await res.json();
-      
-      // Assuming a successful order will clear the cart
       if (data) {
-        // Clear the cart on success if you have that function in context
-        // handleClearCart();
         handleRemoveCartItems()
         alert("Order confirmed! Thank you for your purchase.");
         navigate('/thank-you');
