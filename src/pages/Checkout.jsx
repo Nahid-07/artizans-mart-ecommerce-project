@@ -13,13 +13,11 @@ const Checkout = () => {
   });
   const navigate = useNavigate();
 
-  // Use a state variable for shippingFee to make it reactive
   const [shippingFee, setShippingFee] = useState(0);
 
   const orderedProductData = useLoaderData();
   const productPrice = parseFloat(orderedProductData.data.offer_price);
 
-  // Use useEffect to recalculate shippingFee whenever the area changes
   useEffect(() => {
     let newshippingFee = 0;
     if (
@@ -49,7 +47,7 @@ const Checkout = () => {
     e.preventDefault();
     const today = new Date();
     const year = today.getFullYear();
-    const month = (today.getMonth() + 1).toString().padStart(2, "0"); // Month is 0-indexed
+    const month = (today.getMonth() + 1).toString().padStart(2, "0");
     const day = today.getDate().toString().padStart(2, "0");
 
     const formattedDate = `${year}-${month}-${day}`;
@@ -75,7 +73,8 @@ const Checkout = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        navigate("/thank-you");
+        const orderId = data.insertedId;
+        navigate(`/cash-memo/${orderId}`, { state: { orderDetails} });
         alert("Order Confirmed! Thank you for your purchase.");
       });
   };
@@ -104,7 +103,7 @@ const Checkout = () => {
                   value={shippingInfo.name}
                   onChange={handleInputChange}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
                 />
               </div>
               <div>
@@ -117,7 +116,7 @@ const Checkout = () => {
                   value={shippingInfo.phone}
                   onChange={handleInputChange}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
                 />
               </div>
               <div>
@@ -130,7 +129,7 @@ const Checkout = () => {
                   value={shippingInfo.area}
                   onChange={handleInputChange}
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
                 >
                   <option value="" disabled>
                     Select a delivery area
@@ -155,7 +154,7 @@ const Checkout = () => {
                   onChange={handleInputChange}
                   rows="4"
                   required
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
                 />
               </div>
               <div>
@@ -167,7 +166,7 @@ const Checkout = () => {
                   value={shippingInfo.note}
                   onChange={handleInputChange}
                   rows="3"
-                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
                 />
               </div>
               <div className="mt-8">

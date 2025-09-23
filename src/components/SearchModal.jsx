@@ -7,8 +7,6 @@ const SearchModal = ({ isOpen, onClose }) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const modalRef = useRef(null);
-
-  // Debounce and fetch logic
   useEffect(() => {
     if (!isOpen) {
       // Reset state when the modal is closed

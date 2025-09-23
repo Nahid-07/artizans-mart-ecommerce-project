@@ -15,7 +15,7 @@ const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const {cartItems, setCartItems} = useCart()
+  const {cartItems} = useCart()
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openSearchModal = () => setSearchModalOpen(true);

@@ -430,7 +430,7 @@ const ProductAddForm = () => {
                 value={productData.name}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
               />
             </div>
             <div>
@@ -441,7 +441,7 @@ const ProductAddForm = () => {
                 value={productData.brand}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
               />
             </div>
           </div>
@@ -457,7 +457,7 @@ const ProductAddForm = () => {
                 onChange={handleInputChange}
                 step="0.01"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
               />
             </div>
             <div>
@@ -469,7 +469,7 @@ const ProductAddForm = () => {
                 onChange={handleInputChange}
                 step="0.01"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
               />
             </div>
             <div>
@@ -482,7 +482,7 @@ const ProductAddForm = () => {
                 min="0"
                 max="5"
                 step="0.1"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
               />
             </div>
           </div>
@@ -497,7 +497,7 @@ const ProductAddForm = () => {
                 value={productData.category}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
               />
             </div>
             <div>
@@ -506,7 +506,7 @@ const ProductAddForm = () => {
                 name="stock_status"
                 value={productData.stock_status}
                 onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
               >
                 <option value="in_stock">In Stock</option>
                 <option value="out_of_stock">Out of Stock</option>
@@ -520,7 +520,7 @@ const ProductAddForm = () => {
                 name="is_featured"
                 checked={productData.is_featured}
                 onChange={handleInputChange}
-                className="rounded text-blue-600 focus:ring-blue-500"
+                className="rounded text-blue-600 focus:ring-blue-500 px-1"
               />
               <span className="ml-2 text-sm text-gray-700">Mark as Featured Product</span>
             </label>
@@ -535,7 +535,7 @@ const ProductAddForm = () => {
               onChange={handleInputChange}
               rows="3"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
             />
           </div>
           <div>
@@ -546,7 +546,7 @@ const ProductAddForm = () => {
               onChange={handleInputChange}
               rows="5"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
             />
           </div>
 
@@ -559,7 +559,7 @@ const ProductAddForm = () => {
                 value={newFeature}
                 onChange={(e) => setNewFeature(e.target.value)}
                 placeholder="e.g., Active Noise Cancellation"
-                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
               />
               <button
                 type="button"
