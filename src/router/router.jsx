@@ -17,6 +17,7 @@ import RegisterPage from "../pages/RegisterPage";
 import LoginPage from "../pages/LoginPage";
 import CartPage from "../pages/CartPage";
 import CheckoutPageFromCart from "../pages/CheckoutPageFromCart";
+import ReturnPolicy from "../pages/ReturnPolicy";
 
 export const router = createBrowserRouter([
   {
@@ -78,6 +79,10 @@ element: <CheckoutPageFromCart/>
   {
     path: "/login_user",
     element: <LoginPage />,
+  },
+  {
+    path: '/returns',
+    element: <ReturnPolicy/>
   },
 
   {

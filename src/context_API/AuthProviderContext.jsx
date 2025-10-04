@@ -7,7 +7,6 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider, 
   signInWithPopup,
-  updateProfile
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 import { AuthContext } from "./authContext";

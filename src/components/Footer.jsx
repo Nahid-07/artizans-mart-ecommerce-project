@@ -2,6 +2,7 @@
 import React from 'react';
 import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from 'react-icons/fa';
 import { EnvelopeIcon, PhoneIcon } from '@heroicons/react/24/solid';
+import { Link } from 'react-router';
 
 const Footer = () => {
   return (
@@ -17,18 +18,18 @@ const Footer = () => {
               Your one-stop shop for the latest and greatest in electronic gadgets. We are committed to providing you with high-quality products and an exceptional shopping experience.
             </p>
             <div className="flex space-x-4 mt-4">
-              <a href="#" aria-label="Facebook" className="text-gray-400 hover:text-blue-500 transition-colors">
+              <Link to="#" aria-label="Facebook" className="text-gray-400 hover:text-blue-500 transition-colors">
                 <FaFacebookF size={20} />
-              </a>
-              <a href="#" aria-label="Twitter" className="text-gray-400 hover:text-blue-400 transition-colors">
+              </Link>
+              <Link to="#" aria-label="Twitter" className="text-gray-400 hover:text-blue-400 transition-colors">
                 <FaTwitter size={20} />
-              </a>
-              <a href="#" aria-label="Instagram" className="text-gray-400 hover:text-pink-500 transition-colors">
+              </Link>
+              <Link to="#" aria-label="Instagram" className="text-gray-400 hover:text-pink-500 transition-colors">
                 <FaInstagram size={20} />
-              </a>
-              <a href="#" aria-label="LinkedIn" className="text-gray-400 hover:text-blue-600 transition-colors">
+              </Link>
+              <Link to="#" aria-label="LinkedIn" className="text-gray-400 hover:text-blue-600 transition-colors">
                 <FaLinkedinIn size={20} />
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -36,11 +37,11 @@ const Footer = () => {
           <div className="flex flex-col space-y-4">
             <h3 className="text-lg font-semibold text-white">Quick Links</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
-              <li><a href="/products" className="hover:text-white transition-colors">Shop</a></li>
-              <li><a href="/about" className="hover:text-white transition-colors">About Us</a></li>
-              <li><a href="/contact" className="hover:text-white transition-colors">Contact</a></li>
-              <li><a href="/faq" className="hover:text-white transition-colors">FAQ</a></li>
+              <li><Link to="/" className="hover:text-white transition-colors">Home</Link></li>
+              <li><Link to="/shop" className="hover:text-white transition-colors">Shop</Link></li>
+              <li><Link to="/about_us" className="hover:text-white transition-colors">About Us</Link></li>
+              <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+              <li><Link to="/faq" className="hover:text-white transition-colors">FAQ</Link></li>
             </ul>
           </div>
 
@@ -48,10 +49,10 @@ const Footer = () => {
           <div className="flex flex-col space-y-4">
             <h3 className="text-lg font-semibold text-white">Customer Service</h3>
             <ul className="space-y-2 text-sm">
-              <li><a href="/shipping" className="hover:text-white transition-colors">Shipping & Delivery</a></li>
-              <li><a href="/returns" className="hover:text-white transition-colors">Returns Policy</a></li>
-              <li><a href="/privacy" className="hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="/terms" className="hover:text-white transition-colors">Terms of Service</a></li>
+              <li><Link to="/shipping" className="hover:text-white transition-colors">Shipping & Delivery</Link></li>
+              <li><Link to="/returns" className="hover:text-white transition-colors">Returns Policy</Link></li>
+              <li><Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms" className="hover:text-white transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
 
