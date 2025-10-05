@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import toast from "react-hot-toast";
 
 const ProductAddForm = () => {
+  const inputFieldClasses = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
   const [productData, setProductData] = useState({
     name: "",
     brand: "",
@@ -8,7 +10,7 @@ const ProductAddForm = () => {
     offer_price: "",
     rating: "",
     reviews_count: 0,
-    category: "", // Initial state set to empty for selection prompt
+    category: "",
     is_featured: false,
     stock_status: "in_stock",
     short_description: "",
@@ -20,7 +22,6 @@ const ProductAddForm = () => {
   const [newImage, setNewImage] = useState("");
   const [error, setError] = useState(null);
 
-  // Defined categories for the select dropdown
   const categories = [
     "Smart Watch",
     "Powerbank",
@@ -104,16 +105,13 @@ const ProductAddForm = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.insertedId) {
-          alert("Product has been added successfully!");
-          // Optional: Clear form after success
-          // setProductData(initialProductData); 
+          toast.success("Product has been added successfully!");
         } else {
-          alert("Failed to add product. Please try again.");
+          toast.error("Failed to add product. Please try again.");
         }
       })
       .catch((err) => {
-        setError("Network error. Please try again.");
-        console.error("Error submitting form:", err);
+        setError("Network error. Please try again." , err.message);
       });
   };
 
@@ -139,7 +137,7 @@ const ProductAddForm = () => {
                 value={productData.name}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClasses}
               />
             </div>
             <div>
@@ -150,7 +148,7 @@ const ProductAddForm = () => {
                 value={productData.brand}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClasses}
               />
             </div>
           </div>
@@ -166,7 +164,7 @@ const ProductAddForm = () => {
                 onChange={handleInputChange}
                 step="0.01"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClasses}
               />
             </div>
             <div>
@@ -178,7 +176,7 @@ const ProductAddForm = () => {
                 onChange={handleInputChange}
                 step="0.01"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClasses}
               />
             </div>
             <div>
@@ -191,7 +189,7 @@ const ProductAddForm = () => {
                 min="0"
                 max="5"
                 step="0.1"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClasses}
               />
             </div>
           </div>
@@ -206,7 +204,7 @@ const ProductAddForm = () => {
                 value={productData.category}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClasses}
               >
                 <option value="" disabled>Select a category</option>
                 {categories.map((cat) => (
@@ -253,7 +251,7 @@ const ProductAddForm = () => {
               onChange={handleInputChange}
               rows="3"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+              className={inputFieldClasses}
             />
           </div>
           <div>
@@ -264,7 +262,7 @@ const ProductAddForm = () => {
               onChange={handleInputChange}
               rows="5"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+              className={inputFieldClasses}
             />
           </div>
 
