@@ -1,11 +1,13 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useLoaderData, useNavigate } from "react-router";
 
 const ProductUpdateForm = () => {
+  const inputFieldClas =
+    "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2";
   const { data } = useLoaderData();
   const navigate = useNavigate();
-  
-  // Defined categories for the select dropdown
+
   const categories = [
     "Smart Watch",
     "Powerbank",
@@ -22,7 +24,7 @@ const ProductUpdateForm = () => {
     offer_price: data.offer_price || "",
     rating: data.rating || "",
     reviews_count: data.reviews_count || 0,
-    category: data.category || "", // Initialize with loaded data, or empty string
+    category: data.category || "",
     is_featured: data.is_featured || false,
     stock_status: data.stock_status || "in_stock",
     short_description: data.short_description || "",
@@ -30,7 +32,7 @@ const ProductUpdateForm = () => {
     images: data.images || [],
     features: data.features || [],
   });
-  
+
   const [newFeature, setNewFeature] = useState("");
   const [newImage, setNewImage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -79,11 +81,10 @@ const ProductUpdateForm = () => {
     setIsSubmitting(true);
     setError(null);
 
-    // Basic category validation
     if (!productData.category) {
-        setError("Please select a product category.");
-        setIsSubmitting(false);
-        return;
+      setError("Please select a product category.");
+      setIsSubmitting(false);
+      return;
     }
 
     // Price validation
@@ -105,30 +106,31 @@ const ProductUpdateForm = () => {
     };
 
     try {
-      const res = await fetch(`https://artizans-mart-ecommerce-server.onrender.com/update-product/${data._id}`, {
-        method: "PUT",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(updatedProductData),
-      });
+      const res = await fetch(
+        `https://artizans-mart-ecommerce-server.onrender.com/update-product/${data._id}`,
+        {
+          method: "PUT",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(updatedProductData),
+        }
+      );
 
       const resultData = await res.json();
-      
-      // Checking for successful update (e.g., modifiedCount > 0)
+
       if (resultData.result?.modifiedCount > 0) {
-        alert("Product updated successfully!");
+        toast.success("Product updated successfully!");
         navigate("/dashboard/all-products");
-      } else if (resultData.result?.matchedCount > 0 && resultData.result?.modifiedCount === 0) {
-         // Product was matched, but no fields were changed
-         alert("No changes were made to the product.");
-         navigate("/dashboard/all-products");
+      } else if (
+        resultData.result?.matchedCount > 0 &&
+        resultData.result?.modifiedCount === 0
+      ) {
+        toast.success("No changes were made to the product.");
+        navigate("/dashboard/all-products");
       } else {
-        alert(resultData.message || "Failed to update product.");
+        toast.error(resultData.message || "Failed to update product.");
       }
-    } catch (err) {
-      console.error("Update failed:", err);
-      setError("Failed to update product. Please check your network connection.");
     } finally {
       setIsSubmitting(false);
     }
@@ -149,33 +151,39 @@ const ProductUpdateForm = () => {
           {/* Product and Brand Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Product Name</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Product Name
+              </label>
               <input
                 type="text"
                 name="name"
                 value={productData.name}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClas}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Brand</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Brand
+              </label>
               <input
                 type="text"
                 name="brand"
                 value={productData.brand}
                 onChange={handleInputChange}
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClas}
               />
             </div>
           </div>
-          
+
           {/* Price and Rating Section */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700">Regular Price (৳)</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Regular Price (৳)
+              </label>
               <input
                 type="number"
                 name="regular_price"
@@ -183,11 +191,13 @@ const ProductUpdateForm = () => {
                 onChange={handleInputChange}
                 step="0.01"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClas}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Offer Price (৳)</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Offer Price (৳)
+              </label>
               <input
                 type="number"
                 name="offer_price"
@@ -195,11 +205,13 @@ const ProductUpdateForm = () => {
                 onChange={handleInputChange}
                 step="0.01"
                 required
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClas}
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">Rating (0-5)</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Rating (0-5)
+              </label>
               <input
                 type="number"
                 name="rating"
@@ -208,16 +220,18 @@ const ProductUpdateForm = () => {
                 min="0"
                 max="5"
                 step="0.1"
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClas}
               />
             </div>
           </div>
-          
+
           {/* Category, Stock, and Featured Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* ⚠️ REPLACED INPUT WITH SELECT HERE ⚠️ */}
             <div>
-              <label className="block text-sm font-medium text-gray-700">Category</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Category
+              </label>
               <select
                 name="category"
                 value={productData.category}
@@ -225,29 +239,33 @@ const ProductUpdateForm = () => {
                 required
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
               >
-                <option value="" disabled>Select a category</option>
+                <option value="" disabled>
+                  Select a category
+                </option>
                 {categories.map((cat) => (
-                    <option key={cat} value={cat}>
-                        {cat}
-                    </option>
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
                 ))}
               </select>
             </div>
-            
+
             <div>
-              <label className="block text-sm font-medium text-gray-700">Stock Status</label>
+              <label className="block text-sm font-medium text-gray-700">
+                Stock Status
+              </label>
               <select
                 name="stock_status"
                 value={productData.stock_status}
                 onChange={handleInputChange}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+                className={inputFieldClas}
               >
                 <option value="in_stock">In Stock</option>
                 <option value="out_of_stock">Out of Stock</option>
               </select>
             </div>
           </div>
-          
+
           <div>
             <label className="inline-flex items-center">
               <input
@@ -257,37 +275,45 @@ const ProductUpdateForm = () => {
                 onChange={handleInputChange}
                 className="rounded text-blue-600 focus:ring-blue-500 h-4 w-4"
               />
-              <span className="ml-2 text-sm text-gray-700">Mark as Featured Product</span>
+              <span className="ml-2 text-sm text-gray-700">
+                Mark as Featured Product
+              </span>
             </label>
           </div>
-          
+
           {/* Description Section */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Short Description</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Short Description
+            </label>
             <textarea
               name="short_description"
               value={productData.short_description}
               onChange={handleInputChange}
               rows="3"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+              className={inputFieldClas}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">Long Description</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Long Description
+            </label>
             <textarea
               name="long_description"
               value={productData.long_description}
               onChange={handleInputChange}
               rows="5"
               required
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
+              className={inputFieldClas}
             />
           </div>
 
           {/* Dynamic Features Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Features</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Features
+            </label>
             <div className="flex space-x-2 mt-1">
               <input
                 type="text"
@@ -325,7 +351,9 @@ const ProductUpdateForm = () => {
 
           {/* Dynamic Images Input */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">Image URLs</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Image URLs
+            </label>
             <div className="flex space-x-2 mt-1">
               <input
                 type="url"
@@ -348,7 +376,9 @@ const ProductUpdateForm = () => {
                   key={index}
                   className="flex items-center justify-between p-2 bg-gray-50 rounded-md"
                 >
-                  <span className="text-sm text-gray-700 truncate">{image}</span>
+                  <span className="text-sm text-gray-700 truncate">
+                    {image}
+                  </span>
                   <button
                     type="button"
                     onClick={() => handleRemoveImage(index)}
@@ -360,14 +390,16 @@ const ProductUpdateForm = () => {
               ))}
             </ul>
           </div>
-          
+
           {/* Submit Button */}
           <div className="mt-6">
             <button
               type="submit"
               disabled={isSubmitting}
               className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors ${
-                isSubmitting ? "bg-blue-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"
+                isSubmitting
+                  ? "bg-blue-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
               }`}
             >
               {isSubmitting ? "Updating..." : "Update Product"}
