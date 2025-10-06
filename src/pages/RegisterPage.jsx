@@ -7,7 +7,8 @@ import { AuthContext } from "../context_API/authContext";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const { createUserWithEmailPass , updateUserProfile} = useContext(AuthContext);
+  const { createUserWithEmailPass, updateUserProfile } =
+    useContext(AuthContext);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -32,23 +33,22 @@ const RegisterPage = () => {
     }
 
     setLoading(true);
-    setError(null); // Clear any previous errors
+    setError(null);
 
     try {
-      // Await the promise to ensure user creation is complete
       const userCredential = await createUserWithEmailPass(
         formData.email,
         formData.password
       );
       const user = userCredential.user;
-      if(user){
-        alert("Registration successfull")
+      if (user) {
+        updateUserProfile({
+          displayName: formData.name,
+        });
+        alert("Registration successfull");
       }
-      // Only navigate after successful user creation
       navigate("/");
     } catch (err) {
-      // Firebase or network errors are caught here
-      console.error("Registration error:", err);
       // Provide a more specific error message to the user
       setError(err.message || "Registration failed. Please try again.");
     } finally {
@@ -58,7 +58,7 @@ const RegisterPage = () => {
 
   // New function to navigate back
   const handleGoBack = () => {
-    navigate(-1); // navigate(-1) goes back to the previous page in history
+    navigate(-1);
   };
 
   return (
