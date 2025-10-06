@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import Navbar from "../components/Navbar";
 import { useLoaderData, useNavigate } from "react-router";
+import { AuthContext } from "../context_API/authContext";
 
 const Checkout = () => {
+  const {user} = useContext(AuthContext)
   const [shippingInfo, setShippingInfo] = useState({
-    name: "",
+    name: user ? user?.displayName : "",
     phone: "",
+    email: user ?  user.email : "",
     area: "",
     address: "",
     note: "",
@@ -72,10 +75,8 @@ const Checkout = () => {
       body: JSON.stringify(orderDetails),
     })
       .then((res) => res.json())
-      .then((data) => {
-        const orderId = data.insertedId;
-        navigate(`/cash-memo/${orderId}`, { state: { orderDetails} });
-        alert("Order Confirmed! Thank you for your purchase.");
+      .then(() => {
+        navigate('/thank-you');
       });
   };
 
@@ -116,6 +117,19 @@ const Checkout = () => {
                   value={shippingInfo.phone}
                   onChange={handleInputChange}
                   required
+                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
+                />
+              </div>
+               <div>
+                <label className="block text-sm font-medium text-gray-700">
+                  Email (Optional)
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={shippingInfo.email}
+                  onChange={handleInputChange}
+                  placeholder="Optional"
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-1"
                 />
               </div>
