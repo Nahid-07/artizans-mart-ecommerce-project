@@ -8,6 +8,7 @@ const CategoryShopPage = () => {
   const data = Array.isArray(loadedData) ? loadedData : [];
 
   const { category } = useParams();
+  console.log(category)
   const [filters, setFilters] = useState({ priceRange: "All", rating: 0 });
 
   const filteredProducts = data.filter((product) => {

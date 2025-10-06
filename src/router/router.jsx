@@ -36,33 +36,45 @@ export const router = createBrowserRouter([
     path: "/productDetails/:id",
     element: <ProductDetails />,
     loader: ({ params }) =>
-      fetch(`https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`),
+      fetch(
+        `https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`
+      ),
   },
   {
-    path: '/cart',
-    element: <CartPage/>
+    path: "/cart",
+    element: <CartPage />,
   },
   {
     path: "/checkout/:id",
     element: <Checkout />,
     loader: ({ params }) =>
-      fetch(`https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`),
+      fetch(
+        `https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`
+      ),
   },
 
   {
-path:'/checkout',
-element: <CheckoutPageFromCart/>
+    path: "/checkout",
+    element: <CheckoutPageFromCart />,
   },
   {
     path: "/shop",
     element: <ShopPage />,
-    loader: () => fetch("https://artizans-mart-ecommerce-server.onrender.com/products"),
+    loader: () =>
+      fetch("https://artizans-mart-ecommerce-server.onrender.com/products"),
   },
   {
     path: "/category/:category",
     element: <CategoryShopPage />,
-    loader: ({ params }) =>
-      fetch(`https://artizans-mart-ecommerce-server.onrender.com/category/${params?.category}`),
+    loader: ({ params }) => {
+      const category = params?.category;
+      const capitalizedCategory = category
+        ? category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()
+        : "";
+      return fetch(
+        `https://artizans-mart-ecommerce-server.onrender.com/category/${capitalizedCategory}`
+      );
+    },
   },
   {
     path: "/thank-you",
@@ -81,8 +93,8 @@ element: <CheckoutPageFromCart/>
     element: <LoginPage />,
   },
   {
-    path: '/returns',
-    element: <ReturnPolicy/>
+    path: "/returns",
+    element: <ReturnPolicy />,
   },
 
   {
@@ -98,7 +110,9 @@ element: <CheckoutPageFromCart/>
         path: "/dashboard/update-product/:id",
         element: <ProductUpdateForm />,
         loader: ({ params }) =>
-          fetch(`https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`),
+          fetch(
+            `https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`
+          ),
       },
       {
         path: "/dashboard/orders",
