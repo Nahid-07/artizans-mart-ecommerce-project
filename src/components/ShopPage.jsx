@@ -57,8 +57,9 @@ const ShopPage = () => {
                   }
                 >
                   <option value="All">All</option>
-                  <option value="powerbank">powerbank</option>
-                  <option value="earbuds">Ear buds</option>
+                  <option value="Powerbank">Powerbank</option>
+                  <option value="Earbuds">Earbuds</option>
+                  <option value="Smartwatch">Smartwatch</option>
                   <option value="Accessories">Accessories</option>
                 </select>
               </div>
