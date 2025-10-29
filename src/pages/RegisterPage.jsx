@@ -4,6 +4,7 @@ import { SparklesIcon, ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { ButtonLoader } from "../components/loader/ButtonLoader";
 import { validateFormRegister } from "../libs/formValidation";
 import { AuthContext } from "../context_API/authContext";
+import toast from "react-hot-toast";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -23,7 +24,27 @@ const RegisterPage = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
+  const saveUserToDatabase = async (name, email) => {
+    try {
+      const res = await fetch("http://localhost:5000/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ name, email }),
+      });
 
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.message || "Failed to save user data to DB.");
+      }
+
+    } catch (err) {
+      toast.error(
+        `Warning: User registered, but database save failed: ${err.message}`
+      );
+    }
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -45,18 +66,17 @@ const RegisterPage = () => {
         updateUserProfile({
           displayName: formData.name,
         });
-        alert("Registration successfull");
+        await saveUserToDatabase(formData.name, formData.email);
+        toast.success("Registration successfull");
       }
       navigate("/");
     } catch (err) {
-      // Provide a more specific error message to the user
       setError(err.message || "Registration failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
-  // New function to navigate back
   const handleGoBack = () => {
     navigate(-1);
   };
