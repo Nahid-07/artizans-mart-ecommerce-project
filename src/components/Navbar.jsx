@@ -5,7 +5,7 @@ import {
   MagnifyingGlassIcon,
   ShoppingCartIcon,
 } from "@heroicons/react/24/solid";
-import { Link } from "react-router"; // Use react-router-dom for Link
+import { Link } from "react-router";
 import SearchModal from "./SearchModal";
 import { AuthContext } from "../context_API/authContext";
 import { SearchBarDesktop } from "./SearchBarDesktop";
@@ -15,7 +15,9 @@ const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const {cartItems} = useCart()
+  const [userRole, setUserRole] = useState(null);
+  const [isRoleLoading, setIsRoleLoading] = useState(true);
+  const { cartItems } = useCart();
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const openSearchModal = () => setSearchModalOpen(true);
@@ -23,6 +25,29 @@ const Navbar = () => {
   const handleLogOut = () => {
     logOut();
   };
+  const isAdmin = userRole === "admin";
+  useEffect(() => {
+    if (!user?.email) {
+      setUserRole(null);
+      setIsRoleLoading(false);
+      return;
+    }
+
+    setIsRoleLoading(true);
+
+    fetch(`http://localhost:5000/user?email=${user.email}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setUserRole(data?.role);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch user role:", err);
+        setUserRole(null);
+      })
+      .finally(() => {
+        setIsRoleLoading(false);
+      });
+  }, [user?.email]);
   return (
     <>
       <nav className="bg-white shadow-lg fixed w-full top-0 left-0 z-50">
@@ -103,6 +128,16 @@ const Navbar = () => {
                   About Us
                 </Link>
               </li>
+              {user && !isRoleLoading && isAdmin && (
+                <li>
+                  <Link
+                    to="/dashboard"
+                    className="block py-2 text-gray-800 hover:text-blue-500 transition-colors duration-300 font-semibold"
+                  >
+                    Dashboard
+                  </Link>
+                </li>
+              )}
               {/* Login/Logout for mobile menu */}
               <li className="md:hidden mt-4">
                 {!user?.email ? (

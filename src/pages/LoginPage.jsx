@@ -7,8 +7,8 @@ import { validateFormLogin } from "../libs/formValidation";
 import { AuthContext } from "../context_API/authContext";
 
 const LoginPage = () => {
-  const { signInWithEmailPass,signInWithGoogle, loading:authLoading } = useContext(AuthContext);
-    const [loading, setLoading] = useState(false);
+  const { signInWithEmailPass, signInWithGoogle } = useContext(AuthContext);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
@@ -24,23 +24,16 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1. Validate form data and stop if it's invalid
     if (!validateFormLogin(formData, setError)) {
       return;
     }
-    setLoading(true)
+    setLoading(true);
     setError(null);
 
     try {
-      // Await the sign-in promise to ensure it's complete
       await signInWithEmailPass(formData.email, formData.password);
-
-      //  Navigate only after a successful sign-in
       navigate("/");
     } catch (err) {
-      // Catch and handle errors from the authentication process
-
-      // Provide a more specific error message based on the Firebase error code
       if (
         err.code === "auth/invalid-credential" ||
         err.code === "auth/wrong-password" ||
@@ -52,30 +45,26 @@ const LoginPage = () => {
           err.message || "An unexpected error occurred. Please try again."
         );
       }
-    }finally{
-      setLoading(false)
+    } finally {
+      setLoading(false);
     }
-
   };
 
   const handleGoBack = () => {
     navigate(-1);
   };
 
-  // Google login handler
   const handleGoogleLogin = async () => {
-  setError(null); // Clear any previous errors
+    setError(null);
 
-  try {
-    // Await the sign-in function to handle the asynchronous nature of the operation
-    await signInWithGoogle();
-    
-    // Navigate to a protected route after successful login
-    navigate("/");
-  } catch (err) {
-    setError(err.message || "Google login failed. Please try again.");
-  }
-};
+    try {
+      await signInWithGoogle();
+
+      navigate("/");
+    } catch (err) {
+      setError(err.message || "Google login failed. Please try again.");
+    }
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen flex items-center justify-center p-4 sm:p-6 lg:p-8">

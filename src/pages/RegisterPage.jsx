@@ -38,7 +38,6 @@ const RegisterPage = () => {
         const errorData = await res.json();
         throw new Error(errorData.message || "Failed to save user data to DB.");
       }
-
     } catch (err) {
       toast.error(
         `Warning: User registered, but database save failed: ${err.message}`
