@@ -35,7 +35,7 @@ const Navbar = () => {
 
     setIsRoleLoading(true);
 
-    fetch(`http://localhost:5000/user?email=${user.email}`)
+    fetch(`https://artizans-mart-ecommerce-server.onrender.com/user?email=${user.email}`)
       .then((res) => res.json())
       .then((data) => {
         setUserRole(data?.role);

@@ -14,7 +14,7 @@ const ProductReviews = ({ productId, initialReviews = [] }) => {
       const filterReviews = data.filter(i => i.productId === id)
       setReviews(filterReviews)
     })
-  },[])
+  },[id])
 
   const renderStars = (rating) => {
     return (
