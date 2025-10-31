@@ -18,7 +18,7 @@ const provider = new GoogleAuthProvider();
 export const AuthProviderContext = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+ 
   const createUserWithEmailPass = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -38,7 +38,7 @@ export const AuthProviderContext = ({ children }) => {
     setLoading(true);
     return signInWithPopup(auth, provider);
   };
-// update the user profile
+  // update the user profile
   const updateUserProfile = (name) => {
     setLoading(true);
     return updateProfile(auth.currentUser, name);
