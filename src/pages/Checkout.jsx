@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import Navbar from "../components/Navbar";
 import { useLoaderData, useNavigate } from "react-router";

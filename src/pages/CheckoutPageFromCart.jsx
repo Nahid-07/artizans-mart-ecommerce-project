@@ -6,7 +6,7 @@ import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import { useCart } from "../hooks/useCart";
 
 const CheckoutPageFromCart = () => {
-  const { cartItems, handleRemoveCartItems } = useCart(); // Assuming you have a clear cart function
+  const { cartItems, handleRemoveCartItems } = useCart();
   const navigate = useNavigate();
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
@@ -20,10 +20,10 @@ const CheckoutPageFromCart = () => {
   const [total, setTotal] = useState(0);
 
   const shippingFees = {
-    "insideDhakaSouth": 70,
-    "insideDhakaNorth": 70,
-    "Gazipur": 100,
-    "OutSideDhaka": 120,
+    insideDhakaSouth: 70,
+    insideDhakaNorth: 70,
+    Gazipur: 100,
+    OutSideDhaka: 120,
   };
 
   useEffect(() => {
@@ -56,39 +56,44 @@ const CheckoutPageFromCart = () => {
     }
 
     const today = new Date();
-    const formattedDate = today.toISOString().split('T')[0]; // Simpler date format
+    const formattedDate = today.toISOString().split("T")[0]; // Simpler date format
 
     const orderDetails = {
       shippingInfo,
-      items: cartItems.map(item => ({
+      items: cartItems.map((item) => ({
         id: item._id,
         name: item.name,
         price: item.offer_price,
-        quantity: item.quantity
+        quantity: item.quantity,
       })),
       subtotal,
       shippingFee,
       total,
-      date: formattedDate
+      date: formattedDate,
     };
     try {
-      const res = await fetch("https://artizans-mart-ecommerce-server.onrender.com/place-order", {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify(orderDetails),
-      });
+      const res = await fetch(
+        "https://artizans-mart-ecommerce-server.onrender.com/place-order",
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(orderDetails),
+        }
+      );
 
       if (!res.ok) {
-        throw new Error('Failed to place order. Server responded with an error.');
+        throw new Error(
+          "Failed to place order. Server responded with an error."
+        );
       }
 
       const data = await res.json();
       if (data) {
-        handleRemoveCartItems()
+        handleRemoveCartItems();
         alert("Order confirmed! Thank you for your purchase.");
-        navigate('/thank-you');
+        navigate("/thank-you");
       } else {
         alert("Order could not be placed. Please try again.");
       }
@@ -114,7 +119,9 @@ const CheckoutPageFromCart = () => {
             <form onSubmit={handleConfirmOrder} className="space-y-6">
               {/* Form Inputs (same as before) */}
               <div>
-                <label className="block text-sm font-medium text-gray-700">Full Name</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -138,7 +145,9 @@ const CheckoutPageFromCart = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Select area</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Select area
+                </label>
                 <select
                   type="text"
                   name="area"
@@ -147,15 +156,23 @@ const CheckoutPageFromCart = () => {
                   required
                   className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 >
-                  <option value="" disabled>Select a delivery area</option>
-                  <option value="insideDhakaSouth">Dhaka (South city corporation)</option>
-                  <option value="insideDhakaNorth">Dhaka (North city corporation)</option>
+                  <option value="" disabled>
+                    Select a delivery area
+                  </option>
+                  <option value="insideDhakaSouth">
+                    Dhaka (South city corporation)
+                  </option>
+                  <option value="insideDhakaNorth">
+                    Dhaka (North city corporation)
+                  </option>
                   <option value="Gazipur">Gazipur</option>
                   <option value="OutSideDhaka">Outside Of Dhaka</option>
                 </select>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Shipping Address</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Shipping Address
+                </label>
                 <textarea
                   name="address"
                   value={shippingInfo.address}
@@ -166,7 +183,9 @@ const CheckoutPageFromCart = () => {
                 ></textarea>
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Notes (optional)</label>
+                <label className="block text-sm font-medium text-gray-700">
+                  Notes (optional)
+                </label>
                 <textarea
                   name="note"
                   value={shippingInfo.note}
@@ -194,7 +213,10 @@ const CheckoutPageFromCart = () => {
             </h3>
             <div className="space-y-4">
               {cartItems.map((item) => (
-                <div key={item._id} className="flex justify-between items-center">
+                <div
+                  key={item._id}
+                  className="flex justify-between items-center"
+                >
                   <p className="text-gray-700">
                     {item.name} (x{item.quantity})
                   </p>

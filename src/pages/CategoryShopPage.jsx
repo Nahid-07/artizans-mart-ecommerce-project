@@ -11,9 +11,9 @@ const CategoryShopPage = () => {
   const [filters, setFilters] = useState({ priceRange: "All", rating: 0 });
 
   const filteredProducts = data.filter((product) => {
-    // Simplified price filter logic
+    
     const priceMatch = true;
-    // Rating filter
+ 
     const ratingMatch = product.rating >= filters.rating;
     return priceMatch && ratingMatch;
   });

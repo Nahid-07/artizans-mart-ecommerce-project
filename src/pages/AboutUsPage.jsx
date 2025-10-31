@@ -1,4 +1,3 @@
-// src/pages/AboutUsPage.jsx
 import { Link } from "react-router";
 import {
   SparklesIcon,

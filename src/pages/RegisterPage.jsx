@@ -26,7 +26,7 @@ const RegisterPage = () => {
   };
   const saveUserToDatabase = async (name, email) => {
     try {
-      const res = await fetch("http://localhost:5000/users", {
+      const res = await fetch("https://artizans-mart-ecommerce-server.onrender.com/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
