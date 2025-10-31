@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 import { SparklesIcon } from "@heroicons/react/24/solid";
 import { ButtonLoader } from "../components/loader/ButtonLoader";
@@ -10,6 +10,8 @@ const LoginPage = () => {
   const { signInWithEmailPass, signInWithGoogle } = useContext(AuthContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -32,7 +34,7 @@ const LoginPage = () => {
 
     try {
       await signInWithEmailPass(formData.email, formData.password);
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       if (
         err.code === "auth/invalid-credential" ||
@@ -60,7 +62,7 @@ const LoginPage = () => {
     try {
       await signInWithGoogle();
 
-      navigate("/");
+      navigate(from, { replace: true });
     } catch (err) {
       setError(err.message || "Google login failed. Please try again.");
     }

@@ -18,6 +18,7 @@ import LoginPage from "../pages/LoginPage";
 import CartPage from "../pages/CartPage";
 import CheckoutPageFromCart from "../pages/CheckoutPageFromCart";
 import ReturnPolicy from "../pages/ReturnPolicy";
+import { PrivateRoute } from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -46,7 +47,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/checkout/:id",
-    element: <Checkout />,
+    element: <PrivateRoute><Checkout /></PrivateRoute>,
     loader: ({ params }) =>
       fetch(
         `https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`
@@ -55,7 +56,7 @@ export const router = createBrowserRouter([
 
   {
     path: "/checkout",
-    element: <CheckoutPageFromCart />,
+    element: <PrivateRoute> <CheckoutPageFromCart /></PrivateRoute>,
   },
   {
     path: "/shop",
