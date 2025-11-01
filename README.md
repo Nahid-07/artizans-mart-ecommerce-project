@@ -9,7 +9,7 @@ This repository contains the full frontend implementation for Artizans' Mart, a 
 This project focuses on enterprise-level security and user experience by implementing the following core features:
 
 * **Role-Based Access Control (RBAC):** Restricts key routes, like the admin dashboard, to only authorized users.
-* **Modal Authentication System:** Provides a smooth user flow by presenting a login modal on the current page when users attempt protected actions (e.g., clicking "Buy Now").
+* **firebase Authentication System:** Provides a smooth user flow by presenting a login page on the current page when users attempt protected actions (e.g., clicking "Buy Now").
 * **Google Sign-In Integration:** Offers fast, convenient social login via Firebase/third-party services.
 * **Server-Side Pagination:** Efficiently handles large product catalogs by fetching data slices from the backend API, ensuring fast page loads and scalability.
 * **Global State Management:** Uses **React Context API** for managing user session, cart state, and modal visibility globally.
