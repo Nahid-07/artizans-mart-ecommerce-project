@@ -16,56 +16,9 @@ This project focuses on enterprise-level security and user experience by impleme
 
 ---
 
-## 🚀 Getting Started
-
-Follow these steps to set up the project locally.
-
-### Prerequisites
-
-* **Node.js** (LTS version)
-* A running **Backend API** (must support the required user, product, and login endpoints as designed in this project).
-
-### Installation
-
-1.  **Clone the repository:**
-    ```bash
-    git clone [https://github.com/yourusername/artizans-mart-frontend.git](https://github.com/yourusername/artizans-mart-frontend.git)
-    cd artizans-mart-frontend
-    ```
-
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
-
-3.  **Configure Environment Variables:**
-    Create a `.env` file in the root directory and add your Firebase credentials or other configuration details:
-    ```env
-    # Example Firebase Config
-    VITE_FIREBASE_API_KEY="your_api_key"
-    VITE_AUTH_DOMAIN="your_auth_domain"
-    # ... other variables
-    
-    # Example Backend API URL
-    VITE_API_BASE_URL="http://localhost:5000" 
-    ```
-
-4.  **Run the development server:**
-    ```bash
-    npm run dev
-    # or
-    yarn dev
-    ```
-
-The application should now be accessible at `http://localhost:5173` (or the port specified by your Vite/React setup).
-
----
-
 ## 🔒 Authentication & Protection Flow
 
-### 1. The `ModalRoute` System
+### 1. The `PrivateRoute` System
 
 Protected pages (e.g., `/checkout`, `/place-order`) are wrapped with the `<ModalRoute />`.
 
