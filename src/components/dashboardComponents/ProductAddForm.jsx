@@ -1,7 +1,9 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const ProductAddForm = () => {
+  const axiosPublic = useAxiosPublic();
   const inputFieldClasses = "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2"
   const [productData, setProductData] = useState({
     name: "",
@@ -69,17 +71,15 @@ const ProductAddForm = () => {
     setProductData({ ...productData, images: updatedImages });
   };
 
-  const handleSubmit = (e) => {
+ const handleSubmit = (e) => {
     e.preventDefault();
     setError(null);
 
-    // Basic required field validation
     if (!productData.category) {
         setError("Please select a product category.");
         return;
     }
 
-    // Price Validation: Check if offer price is less than regular price
     const regularPrice = parseFloat(productData.regular_price);
     const offerPrice = parseFloat(productData.offer_price);
 
@@ -95,23 +95,18 @@ const ProductAddForm = () => {
       reviews_count: 0,
     };
 
-    fetch("https://artizans-mart-ecommerce-server.onrender.com/addProduct", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.insertedId) {
+    axiosPublic.post("/addProduct", dataToSend)
+      .then((res) => {
+        if (res.data.insertedId) {
           toast.success("Product has been added successfully!");
+          // Optional: Reset form here if you want
         } else {
           toast.error("Failed to add product. Please try again.");
         }
       })
       .catch((err) => {
-        setError("Network error. Please try again." , err.message);
+        setError("Network error. Please try again.");
+        console.error(err);
       });
   };
 

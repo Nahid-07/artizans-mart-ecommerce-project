@@ -1,21 +1,26 @@
-import { useState, useEffect } from 'react';
-import OrderTable from '../dashboardComponents/OrderTable';
+import { useState, useEffect } from "react";
+import OrderTable from "../dashboardComponents/OrderTable";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
 
   useEffect(() => {
-    // In a real app, you would fetch data from your API
     const fetchOrders = async () => {
-      const response = await fetch('https://artizans-mart-ecommerce-server.onrender.com/orders');
-      const data = await response.json();
-      setOrders(data);
-      setLoading(false);
+      try {
+        const response = await axiosPublic.get("/orders");
+        setOrders(response.data);
+      } catch (error) {
+        console.error("Failed to fetch orders", error);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchOrders();
-  }, []);
+  }, [axiosPublic]);
 
   if (loading) {
     return (

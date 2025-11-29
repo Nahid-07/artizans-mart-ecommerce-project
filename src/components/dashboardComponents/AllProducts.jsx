@@ -2,52 +2,44 @@
 import React, { useState, useEffect } from "react";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic(); // Initialize hook
 
   useEffect(() => {
-    // In a real application, you would fetch data from your API
-    fetch("https://artizans-mart-ecommerce-server.onrender.com/products")
-      .then((res) => res.json())
-      .then((products) => setProducts(products));
-
-    setLoading(false);
-  }, []);
+    axiosPublic.get("/products")
+      .then((res) => {
+        setProducts(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setLoading(false);
+      });
+  }, [axiosPublic]);
 
   const handleDelete = async (productId) => {
     const isConfirmed = window.confirm(
       "Are you sure you want to delete this product?"
     );
 
-    if (!isConfirmed) {
-      return;
-    }
+    if (!isConfirmed) return;
 
     try {
-      const res = await fetch(
-        `https://artizans-mart-ecommerce-server.onrender.com/delete-a-product/${productId}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await axiosPublic.delete(`/delete-a-product/${productId}`);
 
-      if (!res.ok) {
-        throw new Error("Failed to delete product. Server response not OK.");
-      }
-
-      const data = await res.json();
-
-      if (data.result.deletedCount > 0) {
+      if (res.data.result.deletedCount > 0) {
         setProducts(products.filter((product) => product._id !== productId));
-        // Optional: use a more styled notification than alert()
-        alert("Product has been successfully deleted.");
+        toast.success("Product has been successfully deleted.");
       } else {
-        alert("Product not found or already deleted.");
+        toast.error("Product not found or already deleted.");
       }
     } catch (error) {
-      alert(`An error occurred: ${error.message}`);
+      toast.error(`An error occurred: ${error.message}`);
     }
   };
 
@@ -69,40 +61,22 @@ const AllProducts = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Product Name
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Brand
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Regular price
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Offer price
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
                 </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>

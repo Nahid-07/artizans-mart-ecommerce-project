@@ -1,8 +1,10 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useLoaderData, useNavigate } from "react-router";
+import useAxiosPublic from "../../hooks/useAxiosPublic";
 
 const ProductUpdateForm = () => {
+  const axiosPublic = useAxiosPublic();
   const inputFieldClas =
     "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2";
   const { data } = useLoaderData();
@@ -97,27 +99,20 @@ const ProductUpdateForm = () => {
       return;
     }
 
-    // Prepare data to send, ensuring numerical values are parsed
     const updatedProductData = {
       ...productData,
-      regular_price: regularPrice,
-      offer_price: offerPrice,
+      regular_price: parseFloat(productData.regular_price),
+      offer_price: parseFloat(productData.offer_price),
       rating: parseFloat(productData.rating),
     };
 
     try {
-      const res = await fetch(
-        `https://artizans-mart-ecommerce-server.onrender.com/update-product/${data._id}`,
-        {
-          method: "PUT",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(updatedProductData),
-        }
+      const res = await axiosPublic.put(
+        `/update-product/${data._id}`,
+        updatedProductData
       );
 
-      const resultData = await res.json();
+      const resultData = res.data;
 
       if (resultData.result?.modifiedCount > 0) {
         toast.success("Product updated successfully!");
@@ -131,6 +126,9 @@ const ProductUpdateForm = () => {
       } else {
         toast.error(resultData.message || "Failed to update product.");
       }
+    } catch (err) {
+      console.error(err);
+      toast.error("An error occurred while updating.");
     } finally {
       setIsSubmitting(false);
     }
