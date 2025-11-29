@@ -1,25 +1,27 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const ProductGrid = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosPublic = useAxiosPublic();
 
   useEffect(() => {
-    fetch("https://artizans-mart-ecommerce-server.onrender.com/featured-products")
-      .then((res) => res.json())
-      .then((data) => {
-        setProducts(data);
+    axiosPublic.get("/featured-products")
+      .then((res) => {
+        setProducts(res.data); // Axios stores the response in .data
         setLoading(false); 
       })
       .catch((error) => {
         console.error("Error fetching products:", error);
         setLoading(false);
       });
-  }, []);
+  }, [axiosPublic]);
 
+  // ... (rest of your component rendering remains the same)
   if (loading) {
-    return <div className="text-center py-16">Loading...</div>;
+    return <div className="text-center py-16">Loading...</div>; // We will upgrade this to a Skeleton later
   }
 
   if (products.length === 0) {
