@@ -1,23 +1,25 @@
-// src/components/AllProducts.jsx
 import React, { useState, useEffect } from "react";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
+import TableSkeleton from "../loader/TableSkeleton";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const axiosPublic = useAxiosPublic(); // Initialize hook
+  const axiosPublic = useAxiosPublic();
 
   useEffect(() => {
-    axiosPublic.get("/products")
+    axiosPublic
+      .get("/products")
       .then((res) => {
         setProducts(res.data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
+        toast.error("Failed to load products.");
         setLoading(false);
       });
   }, [axiosPublic]);
@@ -45,8 +47,13 @@ const AllProducts = () => {
 
   if (loading) {
     return (
-      <div className="text-center mt-20">
-        <p className="text-xl text-gray-600">Loading products...</p>
+      <div className="bg-gray-100 min-h-screen">
+        <div className="container mx-auto px-4 py-12 mt-16">
+          <h1 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
+            All Products
+          </h1>
+          <TableSkeleton />
+        </div>
       </div>
     );
   }
@@ -61,22 +68,40 @@ const AllProducts = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Product Name
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Brand
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Regular price
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Offer price
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Status
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th
+                  scope="col"
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
                   Actions
                 </th>
               </tr>

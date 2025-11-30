@@ -21,11 +21,13 @@ const OrdersPage = () => {
 
     fetchOrders();
   }, [axiosPublic]);
-
   if (loading) {
     return (
-      <div className="text-center mt-20">
-        <p className="text-xl text-gray-600">Loading orders...</p>
+      <div className="bg-gray-100 min-h-screen">
+        <div className="container mx-auto px-4 py-16">
+          <h1 className="text-3xl font-bold text-center mb-8">All Orders</h1>
+          <TableSkeleton />
+        </div>
       </div>
     );
   }
