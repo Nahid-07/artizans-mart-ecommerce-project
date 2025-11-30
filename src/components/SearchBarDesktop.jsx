@@ -1,9 +1,11 @@
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState, useRef } from "react";
 import { Link, useParams } from "react-router";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 export const SearchBarDesktop = () => {
   const id = useParams()
+  const axiosPublic = useAxiosPublic(); // Init hook
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,12 +18,10 @@ export const SearchBarDesktop = () => {
       if (searchQuery.length > 2) {
         setLoading(true);
         try {
-          const response = await fetch(
-            `https://artizans-mart-ecommerce-server.onrender.com/search?q=${searchQuery}`
-          );
-          const data = await response.json();
-          setResults(data);
-          setShowResults(true); // Show results after successful fetch
+          // Replace fetch with axiosPublic
+          const response = await axiosPublic.get(`/search?q=${searchQuery}`);
+          setResults(response.data);
+          setShowResults(true); 
         } catch (error) {
           console.error("Error fetching search results:", error);
           setResults([]);
@@ -30,12 +30,12 @@ export const SearchBarDesktop = () => {
         }
       } else {
         setResults([]);
-        setShowResults(false); // Hide results if query is too short or empty
+        setShowResults(false);
       }
     }, 300);
 
     return () => clearTimeout(debounceSearch);
-  }, [searchQuery,id]);
+  }, [searchQuery, id, axiosPublic]);
 
   // Click-away listener to hide results
   useEffect(() => {

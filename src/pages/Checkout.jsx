@@ -3,6 +3,7 @@ import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import Navbar from "../components/Navbar";
 import { useLoaderData, useNavigate } from "react-router";
 import { AuthContext } from "../context_API/authContext";
+import { axiosPublic } from "../hooks/useAxiosPublic";
 
 const Checkout = () => {
   const {user} = useContext(AuthContext)
@@ -67,17 +68,14 @@ const Checkout = () => {
       date: formattedDate,
     };
 
-    fetch("https://artizans-mart-ecommerce-server.onrender.com/place-order", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify(orderDetails),
-    })
-      .then((res) => res.json())
-      .then(() => {
-        navigate('/thank-you');
-      });
+   axiosPublic.post("/place-order", orderDetails)
+      .then((res) => {
+        // Axios response data is in res.data
+        if (res.data) {
+           navigate('/thank-you');
+        }
+      })
+      .catch(err => console.error(err));
   };
 
   return (

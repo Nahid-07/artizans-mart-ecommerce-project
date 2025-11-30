@@ -1,68 +1,91 @@
 import { MagnifyingGlassIcon, XMarkIcon } from "@heroicons/react/24/solid";
 import { useEffect, useState, useRef } from "react";
-import { Link } from "react-router"; // Use react-router-dom for navigation
+import { Link } from "react-router";
+import useAxiosPublic from "../hooks/useAxiosPublic";
 
 const SearchModal = ({ isOpen, onClose }) => {
+  const axiosPublic = useAxiosPublic();
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
   const modalRef = useRef(null);
+  const inputRef = useRef(null); // Ref for auto-focus
+
+  // Auto-focus input when modal opens
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100); // Slight delay ensures render is complete
+    }
+  }, [isOpen]);
+
+  // Handle Search with Debounce and Race Condition Protection
   useEffect(() => {
     if (!isOpen) {
-      // Reset state when the modal is closed
       setSearchQuery("");
       setResults([]);
       setLoading(false);
       return;
     }
+
+    let isMounted = true; // Flag to prevent state updates if unmounted
+
     const debounceSearch = setTimeout(async () => {
       if (searchQuery.length > 2) {
-        setLoading(true);
+        if (isMounted) setLoading(true);
         try {
-          const response = await fetch(
-            `https://artizans-mart-ecommerce-server.onrender.com/search?q=${searchQuery}`
-          );
-          const data = await response.json();
-          setResults(data);
+          const response = await axiosPublic.get(`/search?q=${searchQuery}`);
+          if (isMounted) setResults(response.data);
         } catch (error) {
           console.error("Error fetching search results:", error);
-          setResults([]);
+          if (isMounted) setResults([]);
         } finally {
-          setLoading(false);
+          if (isMounted) setLoading(false);
         }
       } else {
-        setResults([]);
+        if (isMounted) setResults([]);
       }
     }, 500);
 
-    return () => clearTimeout(debounceSearch);
-  }, [searchQuery, isOpen]);
+    return () => {
+      isMounted = false;
+      clearTimeout(debounceSearch);
+    };
+  }, [searchQuery, isOpen, axiosPublic]);
 
-  // Handle outside clicks to close the modal
-  const handleOutsideClick = (event) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
-      onClose();
-    }
-  };
-
-  // Attach event listener only when the modal is open
+  // Handle outside clicks
   useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (modalRef.current && !modalRef.current.contains(event.target)) {
+        onClose();
+      }
+    };
+
+    // Handle Escape key
+    const handleEscapeKey = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
     if (isOpen) {
       document.addEventListener("mousedown", handleOutsideClick);
-    } else {
-      document.removeEventListener("mousedown", handleOutsideClick);
+      document.addEventListener("keydown", handleEscapeKey);
     }
+
     return () => {
       document.removeEventListener("mousedown", handleOutsideClick);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
-  }, [isOpen]);
+  }, [isOpen, onClose]);
 
   if (!isOpen) {
-    return null; // Don't render anything when the modal is closed
+    return null;
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-gray-900 opacity-90 flex justify-center items-start pt-20 transition-opacity duration-300">
+    <div className="fixed inset-0 z-50 bg-gray-900 bg-opacity-90 flex justify-center items-start pt-20 transition-opacity duration-300">
       <div
         ref={modalRef}
         className="w-11/12 md:w-3/4 lg:w-1/2 bg-white rounded-lg shadow-xl"
@@ -70,6 +93,7 @@ const SearchModal = ({ isOpen, onClose }) => {
         <div className="flex items-center p-4 border-b border-gray-200">
           <div className="relative flex-grow">
             <input
+              ref={inputRef}
               type="text"
               placeholder="Search products..."
               className="w-full pl-10 pr-4 py-3 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -101,7 +125,17 @@ const SearchModal = ({ isOpen, onClose }) => {
                   onClick={onClose}
                 >
                   <Link to={`/productDetails/${item._id}`} className="block">
-                    {item.name}
+                    <div className="flex items-center space-x-3">
+                      {/* Optional: Show small image if available */}
+                      {item.images && item.images[0] && (
+                        <img
+                          src={item.images[0]}
+                          alt={item.name}
+                          className="w-8 h-8 object-cover rounded"
+                        />
+                      )}
+                      <span>{item.name}</span>
+                    </div>
                   </Link>
                 </li>
               ))}

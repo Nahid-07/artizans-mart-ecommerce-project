@@ -4,7 +4,6 @@ import { renderStars } from "../libs/renderStars";
 
 const CategoryShopPage = () => {
   const loadedData = useLoaderData();
-  // Ensure loadedData is an array before using it
   const data = Array.isArray(loadedData) ? loadedData : [];
 
   const { category } = useParams();

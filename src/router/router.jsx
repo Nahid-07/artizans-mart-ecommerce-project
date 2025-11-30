@@ -19,6 +19,7 @@ import CartPage from "../pages/CartPage";
 import CheckoutPageFromCart from "../pages/CheckoutPageFromCart";
 import ReturnPolicy from "../pages/ReturnPolicy";
 import { PrivateRoute } from "./PrivateRoute";
+import { axiosPublic } from "../hooks/useAxiosPublic"; // Import the instance
 
 export const router = createBrowserRouter([
   {
@@ -36,10 +37,10 @@ export const router = createBrowserRouter([
   {
     path: "/productDetails/:id",
     element: <ProductDetails />,
-    loader: ({ params }) =>
-      fetch(
-        `https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`
-      ),
+    loader: async ({ params }) => {
+      const res = await axiosPublic.get(`/products/${params?.id}`);
+      return res.data;
+    },
   },
   {
     path: "/cart",
@@ -48,10 +49,10 @@ export const router = createBrowserRouter([
   {
     path: "/checkout/:id",
     element: <PrivateRoute><Checkout /></PrivateRoute>,
-    loader: ({ params }) =>
-      fetch(
-        `https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`
-      ),
+    loader: async ({ params }) => {
+      const res = await axiosPublic.get(`/products/${params?.id}`);
+      return res.data;
+    },
   },
 
   {
@@ -61,20 +62,21 @@ export const router = createBrowserRouter([
   {
     path: "/shop",
     element: <ShopPage />,
-    loader: () =>
-      fetch("https://artizans-mart-ecommerce-server.onrender.com/products"),
+    loader: async () => {
+      const res = await axiosPublic.get("/products");
+      return res.data;
+    },
   },
   {
     path: "/category/:category",
     element: <CategoryShopPage />,
-    loader: ({ params }) => {
+    loader: async ({ params }) => {
       const category = params?.category;
       const capitalizedCategory = category
         ? category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()
         : "";
-      return fetch(
-        `https://artizans-mart-ecommerce-server.onrender.com/category/${capitalizedCategory}`
-      );
+      const res = await axiosPublic.get(`/category/${capitalizedCategory}`);
+      return res.data;
     },
   },
   {
@@ -110,10 +112,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/update-product/:id",
         element: <ProductUpdateForm />,
-        loader: ({ params }) =>
-          fetch(
-            `https://artizans-mart-ecommerce-server.onrender.com/products/${params?.id}`
-          ),
+        loader: async ({ params }) => {
+          const res = await axiosPublic.get(`/products/${params?.id}`);
+          return res.data;
+        },
       },
       {
         path: "/dashboard/orders",

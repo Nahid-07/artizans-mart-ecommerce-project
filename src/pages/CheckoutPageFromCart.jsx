@@ -1,13 +1,17 @@
 import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { useNavigate } from "react-router"; // Use react-router-dom
+import { useNavigate } from "react-router";
 import { ShoppingCartIcon } from "@heroicons/react/24/solid";
 import { useCart } from "../hooks/useCart";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import toast from "react-hot-toast";
 
 const CheckoutPageFromCart = () => {
   const { cartItems, handleRemoveCartItems } = useCart();
   const navigate = useNavigate();
+  const axiosPublic = useAxiosPublic();
+  
   const [shippingInfo, setShippingInfo] = useState({
     name: "",
     phone: "",
@@ -49,14 +53,15 @@ const CheckoutPageFromCart = () => {
   const handleConfirmOrder = async (e) => {
     e.preventDefault();
 
-    // Correct validation: check if the 'area' is selected
-    if (shippingInfo.area === "") {
-      alert("Please select a delivery area to proceed.");
+    if (cartItems.length === 0) {
+      toast.error("Your cart is empty.");
       return;
     }
 
-    const today = new Date();
-    const formattedDate = today.toISOString().split("T")[0]; // Simpler date format
+    if (shippingInfo.area === "") {
+      toast.error("Please select a delivery area.");
+      return;
+    }
 
     const orderDetails = {
       shippingInfo,
@@ -69,37 +74,20 @@ const CheckoutPageFromCart = () => {
       subtotal,
       shippingFee,
       total,
-      date: formattedDate,
+      date: new Date().toISOString().split("T")[0],
     };
+
     try {
-      const res = await fetch(
-        "https://artizans-mart-ecommerce-server.onrender.com/place-order",
-        {
-          method: "POST",
-          headers: {
-            "content-type": "application/json",
-          },
-          body: JSON.stringify(orderDetails),
-        }
-      );
+      const res = await axiosPublic.post("/place-order", orderDetails);
 
-      if (!res.ok) {
-        throw new Error(
-          "Failed to place order. Server responded with an error."
-        );
-      }
-
-      const data = await res.json();
-      if (data) {
+      if (res.data.insertedId) {
         handleRemoveCartItems();
-        alert("Order confirmed! Thank you for your purchase.");
+        toast.success("Order confirmed! Thank you for your purchase.");
         navigate("/thank-you");
-      } else {
-        alert("Order could not be placed. Please try again.");
       }
     } catch (error) {
       console.error("Order confirmation error:", error);
-      alert("An error occurred. Please try again later.");
+      toast.error("Order could not be placed. Please try again.");
     }
   };
 
@@ -117,7 +105,6 @@ const CheckoutPageFromCart = () => {
               Shipping Information
             </h3>
             <form onSubmit={handleConfirmOrder} className="space-y-6">
-              {/* Form Inputs (same as before) */}
               <div>
                 <label className="block text-sm font-medium text-gray-700">
                   Full Name
@@ -149,7 +136,6 @@ const CheckoutPageFromCart = () => {
                   Select area
                 </label>
                 <select
-                  type="text"
                   name="area"
                   value={shippingInfo.area}
                   onChange={handleInputChange}
