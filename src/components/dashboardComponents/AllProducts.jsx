@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { TrashIcon, PencilSquareIcon } from "@heroicons/react/24/solid";
 import { Link } from "react-router";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
 import toast from "react-hot-toast";
 import TableSkeleton from "../loader/TableSkeleton";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const AllProducts = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const axiosPublic = useAxiosPublic();
+  // Use the Secure hook for both fetching and deleting in the dashboard
+  const axiosSecure = useAxiosSecure();
 
   useEffect(() => {
-    axiosPublic
+    axiosSecure
       .get("/products")
       .then((res) => {
         setProducts(res.data);
@@ -22,7 +23,7 @@ const AllProducts = () => {
         toast.error("Failed to load products.");
         setLoading(false);
       });
-  }, [axiosPublic]);
+  }, [axiosSecure]);
 
   const handleDelete = async (productId) => {
     const isConfirmed = window.confirm(
@@ -32,7 +33,7 @@ const AllProducts = () => {
     if (!isConfirmed) return;
 
     try {
-      const res = await axiosPublic.delete(`/delete-a-product/${productId}`);
+      const res = await axiosSecure.delete(`/delete-a-product/${productId}`);
 
       if (res.data.result.deletedCount > 0) {
         setProducts(products.filter((product) => product._id !== productId));
@@ -41,6 +42,7 @@ const AllProducts = () => {
         toast.error("Product not found or already deleted.");
       }
     } catch (error) {
+      console.error(error);
       toast.error(`An error occurred: ${error.message}`);
     }
   };
