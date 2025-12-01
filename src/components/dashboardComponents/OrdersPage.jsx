@@ -1,28 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react"; // Import useCallback
 import OrderTable from "../dashboardComponents/OrderTable";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../hooks/useAxiosSecure"; // Use Secure Hook
 import TableSkeleton from "../loader/TableSkeleton";
 import { ClipboardDocumentListIcon } from "@heroicons/react/24/outline";
 
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
+
+  // Create a reusable fetch function
+  const fetchOrders = useCallback(async () => {
+    try {
+      const response = await axiosSecure.get("/orders");
+      // Sort orders by date (newest first) if your backend doesn't do it
+      const sortedData = response.data.reverse();
+      setOrders(sortedData);
+    } catch (error) {
+      console.error("Failed to fetch orders", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [axiosSecure]);
 
   useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const response = await axiosPublic.get("/orders");
-        setOrders(response.data);
-      } catch (error) {
-        console.error("Failed to fetch orders", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchOrders();
-  }, [axiosPublic]);
+  }, [fetchOrders]);
 
   if (loading) {
     return (
@@ -53,7 +56,8 @@ const OrdersPage = () => {
             </p>
           </div>
         ) : (
-          <OrderTable orders={orders} />
+          // Pass the fetchOrders function as a prop named 'refetch'
+          <OrderTable orders={orders} refetch={fetchOrders} />
         )}
       </div>
     </div>
