@@ -17,10 +17,10 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 export const AuthProviderContext = ({ children }) => {
-  const axiosPublic = useAxiosPublic();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
- 
+  const axiosPublic = useAxiosPublic();
+
   const createUserWithEmailPass = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -33,36 +33,45 @@ export const AuthProviderContext = ({ children }) => {
 
   const logOut = () => {
     setLoading(true);
+    localStorage.removeItem("access-token");
     return signOut(auth);
   };
-  // google signIn
+
   const signInWithGoogle = () => {
     setLoading(true);
     return signInWithPopup(auth, provider);
   };
-  // update the user profile
+
   const updateUserProfile = (name) => {
-    setLoading(true);
-    return updateProfile(auth.currentUser, name);
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+    });
   };
-  // 3. User State Observer
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
+
       if (currentUser) {
-        // Get Token from backend
+        // User logged in: Get Token and store it
         const userInfo = { email: currentUser.email };
-        axiosPublic.post("/jwt", userInfo).then((res) => {
-          if (res.data.success) {
-             // Token set in cookies
-             setLoading(false);
-          }
-        });
+
+        axiosPublic
+          .post("/jwt", userInfo)
+          .then((res) => {
+            if (res.data.token) {
+              localStorage.setItem("access-token", res.data.token); // Store in LocalStorage
+              setLoading(false);
+            }
+          })
+          .catch((err) => {
+            console.error("Token creation failed", err);
+            setLoading(false);
+          });
       } else {
-        // Remove token on logout
-        axiosPublic.post("/logout").then(() => {
-           setLoading(false);
-        });
+        // User logged out: Remove Token
+        localStorage.removeItem("access-token");
+        setLoading(false);
       }
     });
     return () => unsubscribe();
