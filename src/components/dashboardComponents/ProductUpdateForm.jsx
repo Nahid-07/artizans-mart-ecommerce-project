@@ -1,14 +1,14 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useLoaderData, useNavigate } from "react-router";
-import useAxiosPublic from "../../hooks/useAxiosPublic";
+import useAxiosSecure from "../../hooks/useAxiosSecure"; // FIX: Use Secure Hook
 
 const ProductUpdateForm = () => {
-  const axiosPublic = useAxiosPublic();
   const inputFieldClas =
     "mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2";
   const { data } = useLoaderData();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure(); // FIX: Initialize secure hook
 
   const categories = [
     "Smart Watch",
@@ -38,7 +38,6 @@ const ProductUpdateForm = () => {
   const [newFeature, setNewFeature] = useState("");
   const [newImage, setNewImage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -81,10 +80,9 @@ const ProductUpdateForm = () => {
   const handleUpdate = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setError(null);
 
     if (!productData.category) {
-      setError("Please select a product category.");
+      toast.error("Please select a product category.");
       setIsSubmitting(false);
       return;
     }
@@ -94,20 +92,22 @@ const ProductUpdateForm = () => {
     const offerPrice = parseFloat(productData.offer_price);
 
     if (offerPrice >= regularPrice) {
-      setError("Offer price must be less than the regular price.");
+      toast.error("Offer price must be less than the regular price.");
       setIsSubmitting(false);
       return;
     }
 
+    // Prepare data to send, ensuring numerical values are parsed
     const updatedProductData = {
       ...productData,
-      regular_price: parseFloat(productData.regular_price),
-      offer_price: parseFloat(productData.offer_price),
+      regular_price: regularPrice,
+      offer_price: offerPrice,
       rating: parseFloat(productData.rating),
     };
 
     try {
-      const res = await axiosPublic.put(
+      // FIX: Use axiosSecure here so the cookie is sent to the backend
+      const res = await axiosSecure.put(
         `/update-product/${data._id}`,
         updatedProductData
       );
@@ -128,7 +128,7 @@ const ProductUpdateForm = () => {
       }
     } catch (err) {
       console.error(err);
-      toast.error("An error occurred while updating.");
+      toast.error(err.response?.data?.message || "An error occurred while updating.");
     } finally {
       setIsSubmitting(false);
     }
@@ -140,11 +140,7 @@ const ProductUpdateForm = () => {
         <h2 className="text-3xl font-extrabold text-gray-900 text-center mb-8">
           Update Product: {data.name}
         </h2>
-        {error && (
-          <div className="mb-4 text-center text-red-600 font-medium">
-            {error}
-          </div>
-        )}
+        
         <form onSubmit={handleUpdate} className="space-y-6">
           {/* Product and Brand Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -225,7 +221,6 @@ const ProductUpdateForm = () => {
 
           {/* Category, Stock, and Featured Section */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* ⚠️ REPLACED INPUT WITH SELECT HERE ⚠️ */}
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Category
@@ -394,7 +389,7 @@ const ProductUpdateForm = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors ${
+              className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white transition-colors duration-300 ${
                 isSubmitting
                   ? "bg-blue-400 cursor-not-allowed"
                   : "bg-blue-600 hover:bg-blue-700"
