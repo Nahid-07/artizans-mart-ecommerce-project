@@ -1,19 +1,17 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import useAuth from "./useAuth"; // You'll need to create a simple useAuth hook or use useContext(AuthContext)
+import useAuth from "./useAuth";
 
 const axiosSecure = axios.create({
   baseURL: "https://artizans-mart-ecommerce-server.onrender.com", 
-  withCredentials: true, // This sends cookies to the server
+  withCredentials: true, 
 });
-
 const useAxiosSecure = () => {
-  const { logOut } = useAuth(); // Assuming you have this context exposed
+  const { logOut } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Interceptor to handle 401/403 errors (invalid token)
     axiosSecure.interceptors.response.use(
       (response) => response,
       async (error) => {
