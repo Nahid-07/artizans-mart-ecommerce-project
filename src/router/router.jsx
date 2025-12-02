@@ -19,7 +19,7 @@ import CartPage from "../pages/CartPage";
 import CheckoutPageFromCart from "../pages/CheckoutPageFromCart";
 import ReturnPolicy from "../pages/ReturnPolicy";
 import { PrivateRoute } from "./PrivateRoute";
-import { axiosPublic } from "../hooks/useAxiosPublic"; // Import the instance
+import { axiosPublic } from "../hooks/useAxiosPublic";
 
 export const router = createBrowserRouter([
   {
@@ -71,12 +71,31 @@ export const router = createBrowserRouter([
     path: "/category/:category",
     element: <CategoryShopPage />,
     loader: async ({ params }) => {
-      const category = params?.category;
-      const capitalizedCategory = category
-        ? category.charAt(0).toUpperCase() + category.slice(1).toLowerCase()
-        : "";
-      const res = await axiosPublic.get(`/category/${capitalizedCategory}`);
-      return res.data;
+      const categorySlug = params?.category?.toLowerCase();
+      
+      // FIX: Map URL slugs to exact Database Category Names
+      const categoryMap = {
+        "smartwatch": "Smart Watch",
+        "gaming": "Gaming Accessories",
+        "earbuds": "Earbuds",
+        "powerbank": "Powerbank",
+        "headphones": "Headphones",
+        "cables": "Cables & Adapters"
+      };
+
+      const dbCategory = categoryMap[categorySlug] || 
+        (categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1));
+
+      try {
+        const res = await axiosPublic.get(`/category/${dbCategory}`);
+        return res.data;
+      } catch (error) {
+        // FIX: If 404 (No products found), return empty array instead of crashing
+        if (error.response && error.response.status === 404) {
+          return [];
+        }
+        throw error;
+      }
     },
   },
   {
