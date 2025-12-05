@@ -21,6 +21,7 @@ import ReturnPolicy from "../pages/ReturnPolicy";
 import { PrivateRoute } from "./PrivateRoute";
 import { axiosPublic } from "../hooks/useAxiosPublic";
 import MyOrdersPage from "../pages/MyOrdersPage";
+import StatsPage from "../components/dashboardComponents/StatsPage";
 
 export const router = createBrowserRouter([
   {
@@ -49,7 +50,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/checkout/:id",
-    element: <PrivateRoute><Checkout /></PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        <Checkout />
+      </PrivateRoute>
+    ),
     loader: async ({ params }) => {
       const res = await axiosPublic.get(`/products/${params?.id}`);
       return res.data;
@@ -58,7 +63,12 @@ export const router = createBrowserRouter([
 
   {
     path: "/checkout",
-    element: <PrivateRoute> <CheckoutPageFromCart /></PrivateRoute>,
+    element: (
+      <PrivateRoute>
+        {" "}
+        <CheckoutPageFromCart />
+      </PrivateRoute>
+    ),
   },
   {
     path: "/shop",
@@ -74,16 +84,17 @@ export const router = createBrowserRouter([
     loader: async ({ params }) => {
       const categorySlug = params?.category?.toLowerCase();
       const categoryMap = {
-        "smartwatch": "Smart Watch",
-        "gaming": "Gaming Accessories",
-        "earbuds": "Earbuds",
-        "powerbank": "Powerbank",
-        "headphones": "Headphones",
-        "cables": "Cables & Adapters"
+        smartwatch: "Smart Watch",
+        gaming: "Gaming Accessories",
+        earbuds: "Earbuds",
+        powerbank: "Powerbank",
+        headphones: "Headphones",
+        cables: "Cables & Adapters",
       };
 
-      const dbCategory = categoryMap[categorySlug] || 
-        (categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1));
+      const dbCategory =
+        categoryMap[categorySlug] ||
+        categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
 
       try {
         const res = await axiosPublic.get(`/category/${dbCategory}`);
@@ -133,6 +144,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/add-product",
         element: <ProductAddForm />,
+      },
+      {
+        path: "/dashboard",
+        element: <StatsPage />,
       },
       {
         path: "/dashboard/update-product/:id",

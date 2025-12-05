@@ -18,7 +18,7 @@ export const Sidebar = () => {
       {/* Overlay (when sidebar is open on mobile) */}
       {isOpen && (
         <div
-          className="fixed inset-0 z-40 md:hidden" // Added z-index
+          className="fixed inset-0 z-40 md:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -28,7 +28,7 @@ export const Sidebar = () => {
         className={`fixed top-0 left-0 min-h-screen w-64 bg-gray-50 shadow-lg transform 
           ${isOpen ? "translate-x-0" : "-translate-x-full"} 
           transition-transform duration-300 ease-in-out 
-          md:translate-x-0 md:static md:w-64 z-50`} // Added z-index
+          md:translate-x-0 md:static md:w-64 z-50`}
       >
         <Link to="/">
           <h1 className="text-2xl font-bold text-center py-6 border-b border-gray-300">
@@ -37,11 +37,22 @@ export const Sidebar = () => {
         </Link>
 
         <ul className="mt-6 space-y-2 px-4">
+          {/* New Overview Link for Stats Page */}
+          <li>
+            <Link
+              to="/dashboard"
+              className="block w-full py-3 px-4 rounded-md text-center hover:bg-gray-300 transition"
+              onClick={() => setIsOpen(false)}
+            >
+              Overview
+            </Link>
+          </li>
+
           <li>
             <Link
               to="/dashboard/add-product"
               className="block w-full py-3 px-4 rounded-md text-center hover:bg-gray-300 transition"
-              onClick={() => setIsOpen(false)} // Close sidebar on link click
+              onClick={() => setIsOpen(false)}
             >
               Add Products
             </Link>
@@ -50,7 +61,7 @@ export const Sidebar = () => {
             <Link
               to="/dashboard/all-products"
               className="block w-full py-3 px-4 rounded-md text-center hover:bg-gray-300 transition"
-              onClick={() => setIsOpen(false)} // Close sidebar on link click
+              onClick={() => setIsOpen(false)}
             >
               All Products
             </Link>
@@ -59,7 +70,7 @@ export const Sidebar = () => {
             <Link
               to="/dashboard/orders"
               className="block w-full py-3 px-4 rounded-md text-center hover:bg-gray-300 transition"
-              onClick={() => setIsOpen(false)} // Close sidebar on link click
+              onClick={() => setIsOpen(false)}
             >
               Orders
             </Link>
