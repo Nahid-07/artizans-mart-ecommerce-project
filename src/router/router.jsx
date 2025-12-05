@@ -20,9 +20,6 @@ import CheckoutPageFromCart from "../pages/CheckoutPageFromCart";
 import ReturnPolicy from "../pages/ReturnPolicy";
 import { PrivateRoute } from "./PrivateRoute";
 import { axiosPublic } from "../hooks/useAxiosPublic";
-import MyOrdersPage from "../pages/MyOrdersPage";
-import StatsPage from "../components/dashboardComponents/StatsPage";
-
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -50,11 +47,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/checkout/:id",
-    element: (
-      <PrivateRoute>
-        <Checkout />
-      </PrivateRoute>
-    ),
+    element: <PrivateRoute><Checkout /></PrivateRoute>,
     loader: async ({ params }) => {
       const res = await axiosPublic.get(`/products/${params?.id}`);
       return res.data;
@@ -63,47 +56,39 @@ export const router = createBrowserRouter([
 
   {
     path: "/checkout",
-    element: (
-      <PrivateRoute>
-        {" "}
-        <CheckoutPageFromCart />
-      </PrivateRoute>
-    ),
+    element: <PrivateRoute> <CheckoutPageFromCart /></PrivateRoute>,
   },
   {
     path: "/shop",
     element: <ShopPage />,
-    loader: async () => {
-      const res = await axiosPublic.get("/products");
-      return res.data;
-    },
   },
   {
     path: "/category/:category",
     element: <CategoryShopPage />,
     loader: async ({ params }) => {
       const categorySlug = params?.category?.toLowerCase();
+      
+      // FIX: Map URL slugs to exact Database Category Names
       const categoryMap = {
-        smartwatch: "Smart Watch",
-        gaming: "Gaming Accessories",
-        earbuds: "Earbuds",
-        powerbank: "Powerbank",
-        headphones: "Headphones",
-        cables: "Cables & Adapters",
+        "smartwatch": "Smartwatch",
+        "gaming": "Gaming Accessories",
+        "earbuds": "Earbuds",
+        "powerbank": "Powerbank",
+        "headphones": "Headphones",
+        "cables": "Cables & Adapters"
       };
 
-      const dbCategory =
-        categoryMap[categorySlug] ||
-        categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1);
+      // Use the map, or fallback to simple capitalization if not found in map
+      const dbCategory = categoryMap[categorySlug] || 
+        (categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1));
 
       try {
         const res = await axiosPublic.get(`/category/${dbCategory}`);
         return res.data;
       } catch (error) {
-        if (error.response && error.response.status === 404) {
-          return [];
-        }
-        throw error;
+        // FIX: If 404 (No products found), return empty array instead of crashing
+        console.error("Category fetch error:", error);
+        return [];
       }
     },
   },
@@ -127,14 +112,6 @@ export const router = createBrowserRouter([
     path: "/returns",
     element: <ReturnPolicy />,
   },
-  {
-    path: "/my-orders",
-    element: (
-      <PrivateRoute>
-        <MyOrdersPage />
-      </PrivateRoute>
-    ),
-  },
 
   {
     path: "/dashboard",
@@ -144,10 +121,6 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/add-product",
         element: <ProductAddForm />,
-      },
-      {
-        path: "/dashboard",
-        element: <StatsPage />,
       },
       {
         path: "/dashboard/update-product/:id",
