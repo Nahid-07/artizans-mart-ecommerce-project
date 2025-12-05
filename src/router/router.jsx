@@ -20,6 +20,7 @@ import CheckoutPageFromCart from "../pages/CheckoutPageFromCart";
 import ReturnPolicy from "../pages/ReturnPolicy";
 import { PrivateRoute } from "./PrivateRoute";
 import { axiosPublic } from "../hooks/useAxiosPublic";
+import MyOrdersPage from "../pages/MyOrdersPage";
 
 export const router = createBrowserRouter([
   {
@@ -72,8 +73,6 @@ export const router = createBrowserRouter([
     element: <CategoryShopPage />,
     loader: async ({ params }) => {
       const categorySlug = params?.category?.toLowerCase();
-      
-      // FIX: Map URL slugs to exact Database Category Names
       const categoryMap = {
         "smartwatch": "Smart Watch",
         "gaming": "Gaming Accessories",
@@ -90,7 +89,6 @@ export const router = createBrowserRouter([
         const res = await axiosPublic.get(`/category/${dbCategory}`);
         return res.data;
       } catch (error) {
-        // FIX: If 404 (No products found), return empty array instead of crashing
         if (error.response && error.response.status === 404) {
           return [];
         }
@@ -117,6 +115,14 @@ export const router = createBrowserRouter([
   {
     path: "/returns",
     element: <ReturnPolicy />,
+  },
+  {
+    path: "/my-orders",
+    element: (
+      <PrivateRoute>
+        <MyOrdersPage />
+      </PrivateRoute>
+    ),
   },
 
   {

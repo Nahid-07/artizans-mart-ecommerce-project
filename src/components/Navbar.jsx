@@ -35,7 +35,9 @@ const Navbar = () => {
 
     setIsRoleLoading(true);
 
-    fetch(`https://artizans-mart-ecommerce-server.onrender.com/user?email=${user.email}`)
+    fetch(
+      `https://artizans-mart-ecommerce-server.onrender.com/user?email=${user.email}`
+    )
       .then((res) => res.json())
       .then((data) => {
         setUserRole(data?.role);
@@ -135,6 +137,16 @@ const Navbar = () => {
                     className="block py-2 text-gray-800 hover:text-blue-500 transition-colors duration-300 font-semibold"
                   >
                     Dashboard
+                  </Link>
+                </li>
+              )}
+              {user && (
+                <li>
+                  <Link
+                    to="/my-orders"
+                    className="block py-2 text-gray-800 hover:text-blue-500 transition-colors duration-300"
+                  >
+                    My Orders
                   </Link>
                 </li>
               )}
